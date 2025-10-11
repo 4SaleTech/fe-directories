@@ -1,0 +1,104 @@
+@import '@/presentation/styles/variables';
+@import '@/presentation/styles/mixins';
+
+.featuredSection {
+  margin-block: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-4;
+  margin-bottom: $spacing-3;
+  direction: rtl;
+
+  @include lg {
+    margin-bottom: $spacing-4;
+  }
+}
+
+.title {
+  font-size: $font-size-xl; // 20px on mobile
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  flex: 1;
+  text-align: right;
+
+  @include lg {
+    font-size: $font-size-2xl;
+    line-height: 1.33;
+  }
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  text-decoration: none;
+  transition: all $transition-base;
+  line-height: 1.43;
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @include lg {
+    background-color: $color-primary-bg;
+    padding: $spacing-2 $spacing-4;
+    padding-inline-start: $spacing-3;
+    border-radius: $radius-lg;
+
+    &:hover {
+      opacity: 1;
+      background-color: darken($color-primary-bg, 5%);
+    }
+  }
+}
+
+// Mobile - Horizontal scroll
+.mobileGrid {
+  display: flex;
+  gap: $spacing-2;
+  overflow-x: auto;
+  overflow-y: hidden;
+  @include hide-scrollbar;
+  scroll-snap-type: x mandatory;
+  padding-bottom: $spacing-2;
+
+  @include lg {
+    display: none;
+  }
+}
+
+// Desktop - Grid layout (5 columns)
+.desktopScroll {
+  display: none;
+
+  @include lg {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: $spacing-6;
+  }
+}
+
+.scrollContainer {
+  display: contents;
+}
+
+.cardWrapper {
+  width: 100%;
+}

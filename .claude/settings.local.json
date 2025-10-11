@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/mohammedsami/Desktop/**)",
+      "Read(//Users/mohammedsami/Downloads/**)",
+      "Read(//Users/mohammedsami/Documents/**)",
+      "Bash(npx create-next-app:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(pkill:*)",
+      "Bash(npm run dev:*)",
+      "WebFetch(domain:www.figma.com)",
+      "mcp__figma-dev-mode-mcp-server__get_screenshot",
+      "mcp__figma-dev-mode-mcp-server__get_code",
+      "Read(//Users/mohammedsami/be-directories/docs/**)",
+      "Read(//Users/mohammedsami/be-directories/**)",
+      "Bash(cat:*)",
+      "Bash(./api)",
+      "Read(//var/folders/52/gyg31wbx6xn8tcpx978vzhyh0000gn/T/TemporaryItems/NSIRD_screencaptureui_PRXWUU/**)",
+      "Bash(curl:*)",
+      "Bash(sqlite3:*)",
+      "Bash(go build:*)",
+      "Read(//var/folders/52/gyg31wbx6xn8tcpx978vzhyh0000gn/T/TemporaryItems/NSIRD_screencaptureui_Gq4vxl/**)",
+      "Bash(./seed)",
+      "Bash(python3:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

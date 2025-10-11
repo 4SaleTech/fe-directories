@@ -1,0 +1,33 @@
+@import '@/presentation/styles/variables';
+@import '@/presentation/styles/mixins';
+
+.languageSwitcher {
+  display: flex;
+  gap: $spacing-2;
+  align-items: center;
+}
+
+.languageButton {
+  @include button-reset;
+  padding: $spacing-2 $spacing-3;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+  background-color: transparent;
+  border: 1px solid $color-border;
+  transition: all $transition-base;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-text-primary;
+    border-color: $color-primary;
+  }
+
+  &.active {
+    color: $color-primary;
+    background-color: $color-primary-light;
+    border-color: $color-primary;
+    font-weight: $font-weight-semibold;
+  }
+}

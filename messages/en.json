@@ -1,0 +1,80 @@
+{
+  "common": {
+    "all": "All",
+    "back": "Back",
+    "map": "Map",
+    "viewBusiness": "View Business",
+    "verified": "Verified",
+    "featured": "Featured",
+    "stars": "stars",
+    "viewsCount": "{count} views",
+    "rating": "Rating",
+    "reviews": "({count} reviews)"
+  },
+  "filters": {
+    "sort": {
+      "label": "Sort",
+      "rating": "Highest Rated",
+      "newest": "Newest",
+      "views": "Most Viewed",
+      "name": "Alphabetical"
+    },
+    "rating": {
+      "label": "Rating",
+      "all": "Rating",
+      "5stars": "5 stars",
+      "4plus": "4+ stars",
+      "3plus": "3+ stars",
+      "2plus": "2+ stars",
+      "1plus": "1+ stars"
+    },
+    "verified": {
+      "label": "Mixed",
+      "all": "Mixed",
+      "verifiedOnly": "Verified Only",
+      "featuredOnly": "Featured Only",
+      "both": "Verified & Featured"
+    }
+  },
+  "business": {
+    "noResults": "No results found for this filter",
+    "openNow": "Open Now",
+    "closed": "Closed",
+    "about": "About",
+    "services": "Services",
+    "branches": "Branches",
+    "workingHours": "Working Hours",
+    "reviews": "Reviews",
+    "media": "Media",
+    "faqs": "FAQs",
+    "today": "Today",
+    "viewOnMap": "View on Map",
+    "share": "Share",
+    "follow": "Follow",
+    "following": "Following",
+    "unfollow": "Unfollow",
+    "visitWebsite": "Visit Website",
+    "callNow": "Call Now",
+    "chatOnWhatsApp": "Chat on WhatsApp",
+    "sunday": "Sunday",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday"
+  },
+  "seo": {
+    "verified": "Verified",
+    "starsRating": "{rating}+ stars",
+    "siteName": "4Sale",
+    "discover": "Discover",
+    "best": "Best",
+    "verifiedText": "Verified",
+    "withRating": "With {rating}+ stars rating",
+    "results": "{count} results",
+    "on4Sale": "on 4Sale",
+    "defaultTitle": "Business Directory | 4Sale",
+    "defaultDescription": "Discover the best businesses and services on 4Sale"
+  }
+}

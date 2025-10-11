@@ -1,0 +1,87 @@
+@import '@/presentation/styles/variables';
+@import '@/presentation/styles/mixins';
+
+.categoryGrid {
+  margin-block: $spacing-4;
+
+  @include lg {
+    margin-block: $spacing-6;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-4;
+
+  @include sm {
+    gap: $spacing-6;
+  }
+
+  @include lg {
+    grid-template-columns: repeat(8, 1fr);
+    gap: $spacing-6;
+  }
+}
+
+.categoryCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-2;
+  text-decoration: none;
+  transition: transform $transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+
+    .iconWrapper {
+      box-shadow: $shadow-lg;
+      background-color: darken(#F1F5F9, 2%);
+    }
+  }
+}
+
+.iconWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: $radius-full;
+  background-color: $color-background-secondary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+  box-shadow: $shadow-sm;
+
+  @include sm {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+.icon {
+  font-size: 2rem;
+  line-height: 1;
+
+  @include sm {
+    font-size: 2.25rem;
+  }
+}
+
+.placeholder {
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-md;
+  background-color: $color-border;
+}
+
+.label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  text-align: center;
+
+  @include sm {
+    font-size: $font-size-base;
+  }
+}

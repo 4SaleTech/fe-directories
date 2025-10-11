@@ -1,0 +1,80 @@
+{
+  "common": {
+    "all": "الكل",
+    "back": "رجوع",
+    "map": "الخريطة",
+    "viewBusiness": "عرض النشاط",
+    "verified": "موثّق",
+    "featured": "مميّز",
+    "stars": "نجوم",
+    "viewsCount": "{count} مشاهدة",
+    "rating": "التقييم",
+    "reviews": "({count} تقييم)"
+  },
+  "filters": {
+    "sort": {
+      "label": "الترتيب",
+      "rating": "الأعلى تقييماً",
+      "newest": "الأحدث",
+      "views": "الأكثر مشاهدة",
+      "name": "أبجدياً"
+    },
+    "rating": {
+      "label": "التقييم",
+      "all": "التقييم",
+      "5stars": "5 نجوم",
+      "4plus": "4+ نجوم",
+      "3plus": "3+ نجوم",
+      "2plus": "2+ نجوم",
+      "1plus": "1+ نجوم"
+    },
+    "verified": {
+      "label": "متنوع",
+      "all": "متنوع",
+      "verifiedOnly": "موثّق فقط",
+      "featuredOnly": "مميّز فقط",
+      "both": "موثّق ومميّز"
+    }
+  },
+  "business": {
+    "noResults": "لا توجد نتائج لهذا الفلتر",
+    "openNow": "مفتوح الآن",
+    "closed": "مغلق",
+    "about": "عن المحل",
+    "services": "الخدمات",
+    "branches": "الفروع",
+    "workingHours": "ساعات العمل",
+    "reviews": "التقييمات",
+    "media": "الوسائط",
+    "faqs": "الأسئلة الشائعة",
+    "today": "اليوم",
+    "viewOnMap": "عرض على الخريطة",
+    "share": "مشاركة",
+    "follow": "متابعة",
+    "following": "متابَع",
+    "unfollow": "إلغاء المتابعة",
+    "visitWebsite": "زيارة الموقع",
+    "callNow": "اتصل الآن",
+    "chatOnWhatsApp": "محادثة عبر واتساب",
+    "sunday": "الأحد",
+    "monday": "الإثنين",
+    "tuesday": "الثلاثاء",
+    "wednesday": "الأربعاء",
+    "thursday": "الخميس",
+    "friday": "الجمعة",
+    "saturday": "السبت"
+  },
+  "seo": {
+    "verified": "موثّق",
+    "starsRating": "{rating}+ نجوم",
+    "siteName": "4Sale",
+    "discover": "اكتشف",
+    "best": "أفضل",
+    "verifiedText": "الموثّقة",
+    "withRating": "بتقييم {rating}+ نجوم",
+    "results": "{count} نتيجة",
+    "on4Sale": "على 4Sale",
+    "defaultTitle": "دليل الأعمال | 4Sale",
+    "defaultDescription": "اكتشف أفضل الأعمال والخدمات على 4Sale"
+  }
+}

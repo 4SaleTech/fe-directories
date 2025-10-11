@@ -1,0 +1,102 @@
+@import '@/presentation/styles/_variables';
+@import '@/presentation/styles/_mixins';
+
+.section {
+  padding: $spacing-6 0;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.sectionTitle {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-6 0;
+  line-height: $line-height-tight;
+}
+
+.ratingAnalysis {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  padding: $spacing-6;
+  background-color: $color-background;
+  border-radius: $radius-lg;
+  border: 1px solid $color-border;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  min-width: 60px;
+}
+
+.starIcon {
+  color: $color-primary;
+  font-size: $font-size-lg;
+}
+
+.starNumber {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.progressBar {
+  flex: 1;
+  height: 8px;
+  background-color: #E5E7EB;
+  border-radius: $radius-full;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: $color-primary;
+  border-radius: $radius-full;
+  transition: width 0.3s ease;
+}
+
+.count {
+  min-width: 50px;
+  text-align: right;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.writeReviewButton {
+  margin-top: $spacing-2;
+  padding: $spacing-3 $spacing-6;
+  background-color: $color-primary;
+  color: $color-text-on-primary;
+  border: none;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+
+  &:hover {
+    background-color: $color-primary-hover;
+  }
+
+  &:active {
+    background-color: $color-primary-active;
+  }
+}

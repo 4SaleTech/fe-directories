@@ -1,0 +1,242 @@
+@import '@/presentation/styles/variables';
+@import '@/presentation/styles/mixins';
+
+.heroBanner {
+  position: relative;
+  width: 100%;
+  margin-bottom: $spacing-8;
+}
+
+.slideContainer {
+  position: relative;
+  width: 100%;
+  height: 140px; // Mobile height
+  border-radius: $radius-xl;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a2b4a 0%, #0a1628 100%);
+
+  @include lg {
+    height: 260px; // Desktop height
+  }
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity $transition-slow;
+  display: flex;
+  align-items: center;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.propertyImage {
+  position: relative;
+  width: 45%;
+  height: 100%;
+
+  @include lg {
+    width: 40%;
+  }
+
+  .image {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.pattern {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0;
+  width: 55%;
+  height: 100%;
+  overflow: hidden;
+
+  @include lg {
+    width: 60%;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.08;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  margin-inline-start: auto;
+  margin-inline-end: $spacing-4;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  align-items: flex-end;
+  text-align: end;
+
+  @include lg {
+    margin-inline-end: $spacing-12;
+    gap: $spacing-6;
+  }
+}
+
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  align-items: flex-end;
+}
+
+.subtitle {
+  font-size: $font-size-base; // 14px on mobile
+  font-weight: $font-weight-regular;
+  color: $color-text-light;
+  line-height: 1.43;
+
+  @include lg {
+    font-size: $font-size-2xl;
+    line-height: 1.33;
+  }
+}
+
+.title {
+  font-size: $font-size-2xl; // 24px on mobile
+  font-weight: $font-weight-bold;
+  color: $color-surface;
+  line-height: 1.33;
+  letter-spacing: -0.01em;
+
+  @include lg {
+    font-size: $font-size-5xl;
+    line-height: 1.17;
+  }
+}
+
+.badges {
+  display: none; // Hide badges on mobile
+
+  @include lg {
+    display: flex;
+    gap: $spacing-4;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  color: $color-text-light;
+  font-size: $font-size-md;
+  font-weight: $font-weight-regular;
+  line-height: 1.5;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.ctaButton {
+  @include button-reset;
+  display: none; // Hide CTA button on mobile
+
+  @include lg {
+    display: flex;
+    background-color: transparent;
+    border: 1px solid $color-primary-dark;
+    color: $color-primary-dark;
+    font-size: $font-size-md;
+    font-weight: $font-weight-bold;
+    padding: $spacing-3 $spacing-4;
+    border-radius: $radius-md;
+    align-items: center;
+    gap: $spacing-2;
+    transition: all $transition-base;
+    line-height: 1.5;
+
+    &:hover {
+      background-color: $color-primary-dark;
+      color: $color-surface;
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+}
+
+.navButton {
+  @include button-reset;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: $color-surface;
+  color: $color-text-primary;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-full;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+  z-index: 10;
+  box-shadow: 0 0 0 1px #ebedf0, 0 2px 6px rgba(9, 43, 76, 0.06);
+
+  &:hover {
+    box-shadow: 0 0 0 1px #ebedf0, 0 4px 12px rgba(9, 43, 76, 0.12);
+  }
+}
+
+.prevButton {
+  inset-inline-start: $spacing-5;
+}
+
+.nextButton {
+  inset-inline-end: $spacing-5;
+}
+
+.indicators {
+  position: absolute;
+  bottom: $spacing-4;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: $spacing-2;
+  z-index: 10;
+  align-items: center;
+}
+
+.indicator {
+  @include button-reset;
+  width: 6px;
+  height: 6px;
+  border-radius: $radius-full;
+  background-color: $color-text-light;
+  transition: all $transition-base;
+  padding: $spacing-2;
+
+  &.active {
+    width: 32px;
+    height: 6px;
+    background-color: $color-primary-dark;
+    border-radius: $radius-full;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

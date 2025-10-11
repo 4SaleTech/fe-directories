@@ -1,0 +1,252 @@
+@import '@/presentation/styles/variables';
+@import '@/presentation/styles/mixins';
+
+.restaurantCard {
+  display: block;
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  transition: all $transition-base;
+  text-decoration: none;
+  position: relative;
+  min-width: 165px; // Mobile card width
+  scroll-snap-align: start;
+  flex-shrink: 0;
+
+  @include lg {
+    min-width: auto;
+    flex-shrink: 1;
+  }
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 124px;
+  background-color: $color-background-secondary;
+}
+
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  object-fit: cover;
+}
+
+// Carousel indicators
+.indicators {
+  position: absolute;
+  bottom: $spacing-3;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-full;
+  backdrop-filter: blur(4px);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: $radius-full;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: all $transition-base;
+  cursor: pointer;
+
+  &.active {
+    width: 16px;
+    background-color: $color-primary-dark;
+  }
+}
+
+// Business Avatar
+.avatar {
+  position: absolute;
+  bottom: $spacing-2;
+  inset-inline-start: $spacing-2;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-full;
+  border: 1px solid $color-surface;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.avatarImage {
+  object-fit: cover;
+}
+
+// Top-right badges
+.badges {
+  position: absolute;
+  top: $spacing-2;
+  inset-inline-end: $spacing-2;
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  z-index: 2;
+}
+
+.featuredBadge {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  background-color: $color-surface;
+  color: $color-text-primary;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  padding: $spacing-1 $spacing-2;
+  padding-inline-start: $spacing-1;
+  border-radius: $radius-full;
+  height: 16px;
+  line-height: 1;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.favoriteButton {
+  @include button-reset;
+  width: 16px;
+  height: 16px;
+  background-color: $color-surface;
+  border-radius: $radius-full;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-primary;
+  transition: all $transition-base;
+
+  &:hover {
+    color: $color-error;
+    transform: scale(1.1);
+  }
+
+  &.active {
+    color: $color-error;
+  }
+
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+// Card Content
+.content {
+  padding: $spacing-2;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  background-color: $color-surface;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  line-height: 1.5;
+  margin: 0;
+  @include truncate;
+  text-align: end;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  font-size: $font-size-sm;
+  flex-wrap: wrap;
+  direction: rtl;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+}
+
+.ratingValue {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  line-height: 1.43;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.priceRange {
+  color: $color-success;
+  font-weight: $font-weight-medium;
+}
+
+.reviewCount {
+  color: $color-text-secondary;
+  font-size: $font-size-sm;
+}
+
+.address {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-1;
+  color: $color-text-secondary;
+  font-size: $font-size-sm;
+  line-height: 1.43;
+  direction: rtl;
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  span {
+    flex: 1;
+    @include line-clamp(2);
+  }
+}
+
+.tags {
+  display: flex;
+  gap: $spacing-2;
+  flex-wrap: wrap;
+  direction: rtl;
+}
+
+.tag {
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-primary;
+  background-color: $color-primary-bg;
+}
+
+// Responsive adjustments
+@include md {
+  .imageContainer {
+    height: 140px;
+  }
+}
+
+@include lg {
+  .imageContainer {
+    height: 124px;
+  }
+}

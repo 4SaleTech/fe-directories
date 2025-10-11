@@ -1,0 +1,127 @@
+@import '@/presentation/styles/_variables';
+@import '@/presentation/styles/_mixins';
+
+.section {
+  padding: $spacing-6 0;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.sectionTitle {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-6 0;
+  line-height: $line-height-tight;
+}
+
+.hoursTable {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  overflow: hidden;
+}
+
+.hourRow {
+  @include flex-between;
+  padding: $spacing-4 $spacing-5;
+  border-bottom: 1px solid $color-border;
+  transition: all $transition-base;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: $color-background-secondary;
+  }
+
+  &.today {
+    background-color: $color-primary-light;
+    border-color: $color-primary;
+
+    &:hover {
+      background-color: lighten($color-primary-light, 2%);
+    }
+  }
+}
+
+.dayColumn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.dayName {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  min-width: 80px;
+
+  @include sm {
+    min-width: 100px;
+  }
+}
+
+.todayBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-3;
+  background-color: $color-primary;
+  color: $color-surface;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeColumn {
+  text-align: end;
+
+  [dir='rtl'] & {
+    text-align: start;
+  }
+}
+
+.timeText {
+  font-size: $font-size-base;
+  color: $color-text-secondary;
+  font-weight: $font-weight-regular;
+  white-space: nowrap;
+}
+
+.closedText {
+  font-size: $font-size-base;
+  color: $color-error;
+  font-weight: $font-weight-medium;
+}
+
+// RTL support
+[dir='rtl'] {
+  .hourRow {
+    direction: rtl;
+  }
+
+  .dayColumn {
+    flex-direction: row-reverse;
+  }
+}
+
+// Responsive
+@media (max-width: $breakpoint-sm) {
+  .hourRow {
+    padding: $spacing-3 $spacing-4;
+  }
+
+  .dayName {
+    min-width: 70px;
+  }
+
+  .todayBadge {
+    display: none;
+  }
+}

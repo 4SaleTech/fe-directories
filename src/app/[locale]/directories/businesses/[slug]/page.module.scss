@@ -1,0 +1,137 @@
+@import '@/presentation/styles/_variables';
+@import '@/presentation/styles/_mixins';
+
+.page {
+  min-height: 100vh;
+  background-color: $color-background;
+  padding: $spacing-6 0;
+
+  @include lg {
+    padding: $spacing-8 0;
+  }
+}
+
+.container {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+
+  @include lg {
+    // English: HTML order = Main (1st), Sidebar (2nd)
+    // We want: Sidebar LEFT, Main RIGHT
+    // With row: Main LEFT, Sidebar RIGHT - exactly what we want!
+    flex-direction: row;
+    gap: $spacing-8;
+    align-items: flex-start;
+  }
+}
+
+// RTL support - Arabic: Sidebar on right, Main content on left
+:global(html[dir='rtl']) {
+  .container {
+    @include lg {
+      // Arabic: HTML order = Main (1st), Sidebar (2nd)
+      // We want: Main LEFT, Sidebar RIGHT
+      // So keep normal order
+      flex-direction: row;
+    }
+  }
+}
+
+.mainContent {
+  flex: 1;
+  max-width: 792px;
+  width: 100%;
+  background-color: $color-surface;
+  border-radius: $radius-xl;
+  padding: $spacing-6;
+  border: 1px solid $color-border;
+
+  @include lg {
+    padding: $spacing-8;
+  }
+
+  // Order for mobile (sidebar comes first visually)
+  order: 2;
+
+  @include lg {
+    order: 2;
+  }
+}
+
+.sidebar {
+  width: 100%;
+  flex-shrink: 0;
+
+  @include lg {
+    width: 384px;
+    max-width: 384px;
+  }
+
+  // Order for mobile (sidebar comes first visually)
+  order: 1;
+
+  @include lg {
+    order: 1;
+  }
+}
+
+.section {
+  padding: $spacing-6 0;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.sectionTitle {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-6 0;
+  line-height: $line-height-tight;
+}
+
+.description {
+  font-size: $font-size-base;
+  color: $color-text-secondary;
+  line-height: $line-height-relaxed;
+
+  p {
+    margin: 0 0 $spacing-4 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: $breakpoint-lg) {
+  .mainContent {
+    max-width: 100%;
+  }
+}
+
+// Print styles
+@media print {
+  .page {
+    background-color: white;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 100%;
+    page-break-before: always;
+  }
+}

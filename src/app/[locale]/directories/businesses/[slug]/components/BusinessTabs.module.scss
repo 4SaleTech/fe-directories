@@ -1,0 +1,61 @@
+@import '@/presentation/styles/_variables';
+@import '@/presentation/styles/_mixins';
+
+.tabsContainer {
+  position: sticky;
+  top: 0;
+  z-index: $z-index-sticky;
+  background-color: $color-surface;
+  border-bottom: 1px solid $color-border;
+  margin-bottom: $spacing-6;
+}
+
+.tabs {
+  display: flex;
+  gap: $spacing-2;
+  overflow-x: auto;
+  padding: $spacing-4 0;
+  @include hide-scrollbar;
+
+  @include md {
+    gap: $spacing-4;
+  }
+}
+
+.tab {
+  @include button-reset;
+  padding: $spacing-3 $spacing-5;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+  transition: all $transition-base;
+  white-space: nowrap;
+  border-radius: $radius-lg;
+  position: relative;
+
+  &:hover {
+    color: $color-text-primary;
+    background-color: $color-background-secondary;
+  }
+
+  &.active {
+    color: $color-primary;
+    background-color: $color-primary-light;
+    font-weight: $font-weight-semibold;
+  }
+
+  @include focus-visible;
+}
+
+.indicator {
+  height: 3px;
+  background-color: transparent;
+  transition: all $transition-base;
+}
+
+// RTL support
+[dir='rtl'] {
+  .tabs {
+    direction: rtl;
+  }
+}
