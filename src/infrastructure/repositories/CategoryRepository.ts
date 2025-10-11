@@ -9,6 +9,7 @@ interface BusinessDTO {
   slug: string;
   about?: string;
   category_id: number;
+  category_slug?: string;
   owner_id?: number;
   phone?: string;
   email?: string;
@@ -38,6 +39,7 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     about: dto.about,
     about_ar: dto.about,
     category_id: dto.category_id,
+    category_slug: dto.category_slug,
     logo: dto.logo,
     cover_image: dto.cover_image,
     rating: dto.rating_avg,
