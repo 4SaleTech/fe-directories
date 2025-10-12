@@ -33,17 +33,17 @@ export default function AboutTabContent({
 
       {/* Branches Section */}
       {branches && branches.length > 0 && (
-        <BranchesSection branches={branches} />
+        <BranchesSection branches={branches} locale={locale} />
       )}
 
       {/* Working Hours Section */}
       {workingHours && workingHours.length > 0 && (
-        <WorkingHoursSection workingHours={workingHours} />
+        <WorkingHoursSection workingHours={workingHours} locale={locale} />
       )}
 
       {/* FAQ Section */}
       {faqs && faqs.length > 0 && (
-        <FAQSection faqs={faqs} />
+        <FAQSection faqs={faqs} locale={locale} />
       )}
     </div>
   );
