@@ -11,7 +11,6 @@
   justify-content: space-between;
   gap: $spacing-4;
   margin-bottom: $spacing-3;
-  direction: rtl;
 
   @include lg {
     margin-bottom: $spacing-4;
@@ -26,7 +25,6 @@
   line-height: 1.25;
   letter-spacing: -0.01em;
   flex: 1;
-  text-align: right;
 
   @include lg {
     font-size: $font-size-2xl;
@@ -84,21 +82,78 @@
   }
 }
 
-// Desktop - Grid layout (5 columns)
+// Desktop - Carousel wrapper with navigation buttons
+.carouselWrapper {
+  display: none;
+
+  @include lg {
+    display: block;
+    position: relative;
+  }
+}
+
+// Desktop - Horizontal scroll carousel
 .desktopScroll {
   display: none;
 
   @include lg {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
     gap: $spacing-6;
+    overflow-x: auto;
+    overflow-y: hidden;
+    @include hide-scrollbar;
+    scroll-behavior: smooth;
+    padding-bottom: $spacing-2;
   }
 }
 
-.scrollContainer {
-  display: contents;
+.cardWrapper {
+  flex: 0 0 auto;
+  width: 250px;
+
+  @include lg {
+    width: 250px;
+  }
 }
 
-.cardWrapper {
-  width: 100%;
+// Navigation buttons
+.navButton {
+  @include button-reset;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-full;
+  background-color: $color-surface;
+  box-shadow: $shadow-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all $transition-base;
+  color: $color-text-primary;
+
+  &:hover {
+    background-color: $color-background-secondary;
+    box-shadow: $shadow-xl;
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.98);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.navButtonLeft {
+  left: -24px;
+}
+
+.navButtonRight {
+  right: -24px;
 }

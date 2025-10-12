@@ -4,20 +4,24 @@ import styles from './CategoryGrid.module.scss';
 
 interface CategoryGridProps {
   categories: Category[];
+  locale?: string;
 }
 
-const CategoryGrid = ({ categories }: CategoryGridProps) => {
+const CategoryGrid = ({ categories, locale = 'ar' }: CategoryGridProps) => {
   if (!categories || categories.length === 0) {
     return null;
   }
 
   return (
     <section className={styles.categoryGrid}>
+      <h2 className={styles.sectionTitle} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+        {locale === 'ar' ? 'الفئات' : 'Categories'}
+      </h2>
       <div className={styles.grid}>
         {categories.map((category) => (
           <Link
             key={category.id}
-            href={`/directories/${category.slug}`}
+            href={`/${locale}/directories/${category.slug}`}
             className={styles.categoryCard}
           >
             <div className={styles.iconWrapper}>
@@ -27,7 +31,9 @@ const CategoryGrid = ({ categories }: CategoryGridProps) => {
                 <div className={styles.placeholder} />
               )}
             </div>
-            <span className={styles.label}>{category.name_ar || category.name}</span>
+            <span className={styles.label}>
+              {category.name}
+            </span>
           </Link>
         ))}
       </div>

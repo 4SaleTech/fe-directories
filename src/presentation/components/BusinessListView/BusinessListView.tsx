@@ -114,14 +114,7 @@ const BusinessListView = ({ category, businesses, tags = [], selectedTag, filter
         )}
 
         {/* Sort/Filter Bar */}
-        <div className={styles.sortBar}>
-          <FilterDropdown
-            label={t('sort.label')}
-            options={sortOptions}
-            paramName="sort"
-            currentValue={filters?.sort}
-          />
-
+        <div className={styles.sortBar} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
           <FilterDropdown
             label={t('rating.label')}
             options={ratingOptions}
@@ -135,6 +128,26 @@ const BusinessListView = ({ category, businesses, tags = [], selectedTag, filter
             paramName="filter"
             currentValue={getVerifiedValue()}
           />
+
+          <FilterDropdown
+            label={t('sort.label')}
+            options={sortOptions}
+            paramName="sort"
+            currentValue={filters?.sort}
+          />
+
+          <button className={styles.filtersButton}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M2 4H14M4 8H12M6 12H10"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span>{locale === 'ar' ? 'فلاتر' : 'Filters'}</span>
+          </button>
         </div>
 
         {/* Business Grid */}

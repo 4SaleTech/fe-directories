@@ -1,3 +1,5 @@
+import { Tag } from './Tag';
+
 export interface AvailableTabs {
   has_branches: boolean;
   has_working_hours: boolean;
@@ -17,6 +19,7 @@ export interface Business {
   category_id: number;
   category_name?: string;
   category_name_ar?: string;
+  category_slug?: string;
   logo?: string;
   cover_image?: string;
   rating: number;
@@ -34,7 +37,7 @@ export interface Business {
     instagram?: string;
     twitter?: string;
   };
-  tags?: string[];
+  tags?: Tag[];
   distance?: number; // in minutes or km
   price_range?: string; // e.g., "9 د.ك"
   address?: string; // Business address

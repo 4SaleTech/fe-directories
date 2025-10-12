@@ -32,8 +32,12 @@ const RestaurantCard = ({ business, variant = 'default' }: RestaurantCardProps) 
     return () => clearInterval(interval);
   }, [images.length]);
 
+  // Use category_slug if available, otherwise fallback to 'businesses'
+  const categorySlug = business.category_slug || 'businesses';
+  const businessUrl = `/${locale}/directories/${categorySlug}/${business.slug}`;
+
   return (
-    <Link href={`/${locale}/directories/businesses/${business.slug}`} className={styles.restaurantCard}>
+    <Link href={businessUrl} className={styles.restaurantCard}>
       <div className={styles.imageContainer}>
         <div className={styles.imageWrapper}>
           <Image
@@ -144,8 +148,9 @@ const RestaurantCard = ({ business, variant = 'default' }: RestaurantCardProps) 
         {business.tags && business.tags.length > 0 && (
           <div className={styles.tags}>
             {business.tags.map((tag, index) => (
-              <span key={index} className={styles.tag}>
-                {tag}
+              <span key={tag.id || index} className={styles.tag}>
+                {tag.icon && <span className={styles.tagIcon}>{tag.icon}</span>}
+                {locale === 'ar' ? (tag.name_ar || tag.name) : tag.name}
               </span>
             ))}
           </div>

@@ -1,6 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 import { categoryRepository } from '@/infrastructure/repositories/CategoryRepository';
-import Link from 'next/link';
+import { businessRepository } from '@/infrastructure/repositories/BusinessRepository';
+import HeroBanner from '@/presentation/components/HeroBanner/HeroBanner';
+import { SearchBar } from '@/presentation/components/SearchBar';
+import CategoryGrid from '@/presentation/components/CategoryGrid/CategoryGrid';
+import { FeaturedSection } from '@/presentation/components/FeaturedSection';
 import styles from './page.module.scss';
 
 interface DirectoriesPageProps {
@@ -11,37 +15,52 @@ interface DirectoriesPageProps {
 
 export default async function DirectoriesPage({ params }: DirectoriesPageProps) {
   const { locale } = params;
-  const t = await getTranslations('directories');
 
-  // Fetch all categories
-  const categories = await categoryRepository.getAllCategories(locale);
+  // Fetch categories for the grid (limit to 8 for 2 rows of 4)
+  const allCategories = await categoryRepository.getAllCategories(locale);
+  const categories = allCategories.slice(0, 8);
+
+  // Fetch top 5 businesses for each category (dynamic sections)
+  const categorySections = await Promise.all(
+    allCategories.map(async (category) => {
+      const response = await categoryRepository.getBusinessesByCategory(
+        category.slug,
+        { limit: 5, sort: 'rating' },
+        locale
+      );
+      return { category, businesses: response.businesses };
+    })
+  );
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>{t('title')}</h1>
-        <p className={styles.subtitle}>{t('subtitle')}</p>
-      </div>
+    <div className={styles.homePage}>
+      {/* Search Bar */}
+      <section className={styles.searchSection}>
+        <SearchBar locale={locale} placeholder={locale === 'ar' ? 'ابحث عن أي شئ' : 'Search for anything'} />
+      </section>
 
-      <div className={styles.categoriesGrid}>
-        {categories.map((category) => (
-          <Link
-            key={category.id}
-            href={`/${locale}/directories/${category.slug}`}
-            className={styles.categoryCard}
-          >
-            <div className={styles.categoryIcon}>{category.icon}</div>
-            <h3 className={styles.categoryName}>
-              {locale === 'ar' ? category.name_ar : category.name}
-            </h3>
-            {category.description && (
-              <p className={styles.categoryDescription}>
-                {locale === 'ar' ? category.description_ar : category.description}
-              </p>
-            )}
-          </Link>
-        ))}
-      </div>
+      {/* Category Grid */}
+      <section className={styles.categorySection}>
+        <CategoryGrid categories={categories} locale={locale} />
+      </section>
+
+      {/* Divider */}
+      <div className={styles.divider} />
+
+      {/* Dynamic Category Sections */}
+      <section className={styles.featuredSections}>
+        {categorySections.map(({ category, businesses }) =>
+          businesses.length > 0 ? (
+            <FeaturedSection
+              key={category.id}
+              title={locale === 'ar' ? `الأعلى تقييماً في ${category.name}` : `Top Rated in ${category.name}`}
+              businesses={businesses}
+              viewAllLink={`/${locale}/directories/${category.slug}`}
+              locale={locale}
+            />
+          ) : null
+        )}
+      </section>
     </div>
   );
 }

@@ -4,6 +4,7 @@
 .filterDropdown {
   position: relative;
   flex-shrink: 0;
+  z-index: 100; // Ensure dropdown wrapper is above siblings
 
   @include lg {
     min-width: 150px;
@@ -17,13 +18,15 @@
   justify-content: space-between;
   gap: $spacing-2;
   width: 100%;
-  padding: $spacing-3 $spacing-4;
+  padding: $spacing-2 $spacing-4;
+  height: 32px;
   border-radius: $radius-md;
-  font-size: $font-size-base;
+  font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   color: $color-text-primary;
   background-color: $color-surface;
   border: 1px solid $color-border;
+  white-space: nowrap;
   transition: all $transition-base;
 
   &:hover {
@@ -32,6 +35,8 @@
 
   svg {
     flex-shrink: 0;
+    width: 16px;
+    height: 16px;
     transition: transform $transition-base;
 
     &.rotated {
@@ -40,6 +45,30 @@
   }
 }
 
+// Portal dropdown (rendered at document.body level)
+.dropdownPortal {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-xl;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+  max-height: 300px;
+  overflow-y: auto;
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// Legacy dropdown (kept for backward compatibility, but not used with portal)
 .dropdown {
   position: absolute;
   top: calc(100% + $spacing-2);
@@ -49,7 +78,7 @@
   border: 1px solid $color-border;
   border-radius: $radius-md;
   box-shadow: $shadow-lg;
-  z-index: 100;
+  z-index: 9999;
   overflow: hidden;
   animation: slideDown 0.2s ease-out;
 

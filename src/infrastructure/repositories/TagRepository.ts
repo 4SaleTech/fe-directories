@@ -56,6 +56,27 @@ export class TagRepository {
       throw error;
     }
   }
+
+  async getTagsByCategory(categorySlug: string, language: string = 'ar'): Promise<Tag[]> {
+    try {
+      const response = await fetch(`${this.baseUrl}/categories/${categorySlug}/tags`, {
+        headers: {
+          'X-Language': language,
+        },
+        cache: 'no-store',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch tags for category: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data.data || [];
+    } catch (error) {
+      console.error('Error fetching category tags:', error);
+      throw error;
+    }
+  }
 }
 
 export const tagRepository = new TagRepository();

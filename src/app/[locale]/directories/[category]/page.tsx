@@ -125,9 +125,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       locale
     );
 
-    // Fetch tags for this category (you may need to add this method to CategoryRepository)
-    // For now, using empty array
-    const tags = await tagRepository.getTags('business', locale);
+    // Fetch tags for this category
+    const tags = await tagRepository.getTagsByCategory(category, locale);
 
     return (
       <BusinessListView

@@ -9,6 +9,21 @@
   }
 }
 
+.sectionTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-4 0;
+  line-height: 1.25;
+  display: none;
+
+  @include lg {
+    display: block;
+    font-size: $font-size-2xl;
+    margin-bottom: $spacing-6;
+  }
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

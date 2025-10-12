@@ -1,0 +1,37 @@
+@import '@/presentation/styles/variables';
+@import '@/presentation/styles/mixins';
+
+.homePage {
+  min-height: 100vh;
+  background-color: $color-background;
+}
+
+.heroSection {
+  width: 100%;
+}
+
+.searchSection {
+  margin-top: -20px; // Pull search bar up to overlap hero banner slightly
+  position: relative;
+  z-index: 10;
+}
+
+.categorySection {
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.divider {
+  width: 100%;
+  height: 8px;
+  background-color: #F7F8FA;
+  margin: 16px 0;
+}
+
+.featuredSections {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-bottom: 32px;
+}
