@@ -3,13 +3,6 @@
   "outputDirectory": ".next",
   "framework": "nextjs",
   "regions": ["iad1"],
-  "env": {
-    "NEXT_PUBLIC_API_BASE_URL": "@next_public_api_base_url",
-    "NEXT_PUBLIC_DEVICE_ID": "@next_public_device_id",
-    "NEXT_PUBLIC_DEVICE_TYPE": "@next_public_device_type",
-    "NEXT_PUBLIC_VERSION_NUMBER": "@next_public_version_number",
-    "NEXT_PUBLIC_APPLICATION_SOURCE": "@next_public_application_source"
-  },
   "headers": [
     {
       "source": "/(.*)",
