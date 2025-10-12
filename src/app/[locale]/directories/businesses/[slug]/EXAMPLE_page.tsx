@@ -7,6 +7,9 @@
  * Location: /src/app/[locale]/directories/businesses/[slug]/page.tsx
  */
 
+'use client';
+
+import { useState } from 'react';
 import { useLocale } from 'next-intl';
 import {
   BusinessSidebar,
@@ -25,8 +28,9 @@ interface BusinessProfilePageProps {
   };
 }
 
-export default async function BusinessProfilePage({ params }: BusinessProfilePageProps) {
+export default function BusinessProfilePage({ params }: BusinessProfilePageProps) {
   const { locale, slug } = params;
+  const [activeTab, setActiveTab] = useState('about');
 
   // TODO: Replace with your actual data fetching logic
   // Example using a repository pattern:
@@ -130,7 +134,11 @@ export default async function BusinessProfilePage({ params }: BusinessProfilePag
           {/* Main Content - Left Column */}
           <main className={styles.mainContent}>
             {/* Tabs Navigation */}
-            <BusinessTabs availableTabs={business.available_tabs} />
+            <BusinessTabs
+              availableTabs={business.available_tabs}
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+            />
 
             {/* About Section */}
             <section id="about" className={styles.section}>
