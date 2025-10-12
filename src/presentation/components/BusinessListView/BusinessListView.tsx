@@ -17,8 +17,8 @@ interface BusinessListViewProps {
   tags?: Tag[];
   selectedTag: string | null;
   filters?: {
-    verified: boolean;
-    featured: boolean;
+    verified?: boolean;
+    featured?: boolean;
     rating?: number;
     sort: string;
   };
@@ -135,19 +135,6 @@ const BusinessListView = ({ category, businesses, tags = [], selectedTag, filter
             paramName="sort"
             currentValue={filters?.sort}
           />
-
-          <button className={styles.filtersButton}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M2 4H14M4 8H12M6 12H10"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span>{locale === 'ar' ? 'فلاتر' : 'Filters'}</span>
-          </button>
         </div>
 
         {/* Business Grid */}
