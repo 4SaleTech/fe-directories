@@ -53,7 +53,6 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     email: dto.email,
     website: dto.website,
     address: dto.address,
-    tags: dto.tags,
   };
 }
 
