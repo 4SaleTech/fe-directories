@@ -7,6 +7,9 @@ import CategoryGrid from '@/presentation/components/CategoryGrid/CategoryGrid';
 import { FeaturedSection } from '@/presentation/components/FeaturedSection';
 import styles from './page.module.scss';
 
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic';
+
 interface DirectoriesPageProps {
   params: {
     locale: string;
