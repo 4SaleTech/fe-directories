@@ -3,7 +3,7 @@ import { Tag } from '@/domain/entities/Tag';
 export class TagRepository {
   private baseUrl: string;
 
-  constructor(baseUrl: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v2') {
+  constructor(baseUrl: string = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080/api/v2') {
     this.baseUrl = baseUrl;
   }
 
