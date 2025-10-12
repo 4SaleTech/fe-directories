@@ -122,7 +122,7 @@ const FeaturedSection = ({ title, businesses, viewAllLink, locale = 'ar' }: Feat
         >
           {businesses.map((business) => (
             <div key={business.id} className={styles.cardWrapper}>
-              <RestaurantCard business={business} locale={locale} />
+              <RestaurantCard business={business} />
             </div>
           ))}
         </div>
@@ -149,7 +149,7 @@ const FeaturedSection = ({ title, businesses, viewAllLink, locale = 'ar' }: Feat
       {/* Mobile: Horizontal scroll */}
       <div className={styles.mobileGrid}>
         {businesses.map((business) => (
-          <RestaurantCard key={business.id} business={business} locale={locale} />
+          <RestaurantCard key={business.id} business={business} />
         ))}
       </div>
     </section>
