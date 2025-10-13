@@ -133,7 +133,7 @@ const FilterDropdown = ({ label, options, paramName, currentValue }: FilterDropd
         </button>
       </div>
 
-      {mounted && isOpen && createPortal(
+      {mounted && isOpen && typeof document !== 'undefined' && createPortal(
         <div
           ref={dropdownRef}
           className={styles.dropdownPortal}
