@@ -105,33 +105,6 @@ const FilterDropdown = ({ label, options, paramName, currentValue }: FilterDropd
   const currentOption = options.find(opt => opt.value === currentValue);
   const displayLabel = currentOption?.label || label;
 
-  // Render dropdown menu
-  const dropdownMenu = isOpen && mounted ? (
-    <div
-      ref={dropdownRef}
-      className={styles.dropdownPortal}
-      style={{
-        position: 'fixed',
-        top: `${dropdownPosition.top}px`,
-        left: `${dropdownPosition.left}px`,
-        width: `${dropdownPosition.width}px`,
-        zIndex: 9999,
-      }}
-    >
-      {options.map((option) => (
-        <button
-          key={option.value}
-          className={`${styles.option} ${
-            currentValue === option.value ? styles.active : ''
-          }`}
-          onClick={() => handleSelect(option.value)}
-        >
-          {option.label}
-        </button>
-      ))}
-    </div>
-  ) : null;
-
   return (
     <>
       <div className={styles.filterDropdown}>
@@ -160,7 +133,32 @@ const FilterDropdown = ({ label, options, paramName, currentValue }: FilterDropd
         </button>
       </div>
 
-      {mounted && dropdownMenu && createPortal(dropdownMenu, document.body)}
+      {mounted && isOpen && createPortal(
+        <div
+          ref={dropdownRef}
+          className={styles.dropdownPortal}
+          style={{
+            position: 'fixed',
+            top: `${dropdownPosition.top}px`,
+            left: `${dropdownPosition.left}px`,
+            width: `${dropdownPosition.width}px`,
+            zIndex: 9999,
+          }}
+        >
+          {options.map((option) => (
+            <button
+              key={option.value}
+              className={`${styles.option} ${
+                currentValue === option.value ? styles.active : ''
+              }`}
+              onClick={() => handleSelect(option.value)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>,
+        document.body
+      )}
     </>
   );
 };
