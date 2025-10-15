@@ -67,7 +67,7 @@ const BusinessSidebar = ({ business, locale }: BusinessSidebarProps) => {
               className={styles.avatarImg}
             />
           </div>
-          {business.is_verified && (
+          {business.attributes?.verified === 'true' && (
             <div className={styles.verifiedBadge}>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <circle cx="10" cy="10" r="9" fill="#0062FF" />
@@ -142,19 +142,19 @@ const BusinessSidebar = ({ business, locale }: BusinessSidebarProps) => {
 
         {/* Rating */}
         <div className={styles.ratingSection}>
-          <div className={styles.ratingValue}>{(business.rating || 0).toFixed(1)}</div>
+          <div className={styles.ratingValue}>{(business.rating?.average || 0).toFixed(1)}</div>
           <div className={styles.stars}>
             {Array.from({ length: 5 }, (_, i) => (
               <svg key={i} width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path
                   d="M10 2L12.1 7.3L18 8.1L14 12L15 18L10 15.3L5 18L6 12L2 8.1L7.9 7.3L10 2Z"
-                  fill={i < Math.floor(business.rating || 0) ? '#FFB700' : '#E9EBF2'}
+                  fill={i < Math.floor(business.rating?.average || 0) ? '#FFB700' : '#E9EBF2'}
                 />
               </svg>
             ))}
           </div>
           <div className={styles.reviewCount}>
-            ({business.reviews_count || 0} {t('reviews')})
+            ({business.rating?.count || 0} {t('reviews')})
           </div>
         </div>
 

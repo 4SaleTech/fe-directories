@@ -19,8 +19,7 @@ interface BusinessDTO {
   longitude?: number;
   logo?: string;
   cover_image?: string;
-  is_verified: boolean;
-  is_featured: boolean;
+  attributes?: Record<string, string>;
   view_count: number;
   rating_avg: number;
   rating_count: number;
@@ -42,11 +41,12 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     category_slug: dto.category_slug,
     logo: dto.logo,
     cover_image: dto.cover_image,
-    rating: dto.rating_avg,
-    reviews_count: dto.rating_count,
+    rating: {
+      average: dto.rating_avg,
+      count: dto.rating_count,
+    },
     views_count: dto.view_count,
-    is_verified: dto.is_verified,
-    is_featured: dto.is_featured,
+    attributes: dto.attributes,
     is_open: true,
     whatsapp_number: dto.phone,
     contact_numbers: dto.phone,
@@ -76,9 +76,7 @@ export class CategoryRepository {
   async getBusinessesByCategory(
     slug: string,
     params: {
-      verified?: boolean;
-      featured?: boolean;
-      min_rating?: number;
+      filters?: Record<string, string>;
       sort?: 'name' | 'rating' | 'views' | 'newest';
       page?: number;
       limit?: number;
@@ -91,9 +89,15 @@ export class CategoryRepository {
       limit: String(params.limit || 20),
     });
 
-    if (params.verified !== undefined) queryParams.append('verified', String(params.verified));
-    if (params.featured !== undefined) queryParams.append('featured', String(params.featured));
-    if (params.min_rating !== undefined) queryParams.append('min_rating', String(params.min_rating));
+    // Add dynamic filters
+    if (params.filters) {
+      Object.entries(params.filters).forEach(([key, value]) => {
+        if (value && value !== 'all') {
+          queryParams.append(key, value);
+        }
+      });
+    }
+
     if (params.sort) queryParams.append('sort', params.sort);
     if (params.tags && params.tags.length > 0) queryParams.append('tags', params.tags.join(','));
 

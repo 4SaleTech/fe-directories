@@ -4,9 +4,9 @@ import { Metadata } from 'next';
 import { businessRepository } from '@/infrastructure/repositories/BusinessRepository';
 import {
   BusinessSidebar,
-} from '../../businesses/[slug]/components';
-import BusinessProfileClient from '../../businesses/[slug]/BusinessProfileClient';
-import styles from '../../businesses/[slug]/page.module.scss';
+} from './components';
+import BusinessProfileClient from './BusinessProfileClient';
+import styles from './page.module.scss';
 
 interface BusinessProfilePageProps {
   params: {
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: BusinessProfilePageProps): Pr
   const { locale, category, slug } = params;
 
   try {
-    const business = await businessRepository.getBusinessBySlug(slug, locale);
+    const business = await businessRepository.getBusinessBySlug(category, slug, locale);
     const businessName = locale === 'ar' ? business.name_ar : business.name;
     const description = locale === 'ar' ? business.about_ar : business.about;
 
@@ -56,11 +56,11 @@ export async function generateMetadata({ params }: BusinessProfilePageProps): Pr
 }
 
 export default async function BusinessProfilePage({ params }: BusinessProfilePageProps) {
-  const { locale, slug } = params;
+  const { locale, category, slug } = params;
 
   try {
     // Fetch business data first to get available_tabs
-    const business = await businessRepository.getBusinessBySlug(slug, locale);
+    const business = await businessRepository.getBusinessBySlug(category, slug, locale);
 
     // Increment view count (don't await to not block page render)
     businessRepository.incrementViews(slug).catch(() => {});

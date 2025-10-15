@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 import { Business } from '@/domain/entities/Business';
 import { Tag } from '@/domain/entities/Tag';
+import { Filter } from '@/infrastructure/repositories/FilterRepository';
 import RestaurantCard from '../RestaurantCard/RestaurantCard';
 import FilterDropdown from '../FilterDropdown/FilterDropdown';
 import styles from './BusinessListView.module.scss';
@@ -17,49 +18,21 @@ interface BusinessListViewProps {
   tags?: Tag[];
   selectedTag: string | null;
   filters?: {
-    verified?: boolean;
-    featured?: boolean;
-    rating?: number;
+    filters: Record<string, string>;
     sort: string;
   };
+  dynamicFilters?: Filter[];
 }
 
-const BusinessListView = ({ category, businesses, tags = [], selectedTag, filters }: BusinessListViewProps) => {
+const BusinessListView = ({ category, businesses, tags = [], selectedTag, filters, dynamicFilters = [] }: BusinessListViewProps) => {
   const t = useTranslations('filters');
   const tCommon = useTranslations('common');
   const tBusiness = useTranslations('business');
   const locale = useLocale();
 
-  // Define filter options
-  const sortOptions = [
-    { label: t('sort.rating'), value: 'rating' },
-    { label: t('sort.newest'), value: 'newest' },
-    { label: t('sort.views'), value: 'views' },
-    { label: t('sort.name'), value: 'name' },
-  ];
-
-  const ratingOptions = [
-    { label: t('rating.all'), value: 'all' },
-    { label: t('rating.5stars'), value: '5' },
-    { label: t('rating.4plus'), value: '4' },
-    { label: t('rating.3plus'), value: '3' },
-    { label: t('rating.2plus'), value: '2' },
-    { label: t('rating.1plus'), value: '1' },
-  ];
-
-  const verifiedOptions = [
-    { label: t('verified.all'), value: 'all' },
-    { label: t('verified.verifiedOnly'), value: 'verified' },
-    { label: t('verified.featuredOnly'), value: 'featured' },
-    { label: t('verified.both'), value: 'both' },
-  ];
-
-  // Determine current verified filter value
-  const getVerifiedValue = () => {
-    if (filters?.verified && filters?.featured) return 'both';
-    if (filters?.verified) return 'verified';
-    if (filters?.featured) return 'featured';
-    return 'all';
+  // Helper function to get current filter value from the filters object
+  const getCurrentFilterValue = (filterSlug: string): string => {
+    return filters?.filters[filterSlug] || 'all';
   };
 
   return (
@@ -106,7 +79,7 @@ const BusinessListView = ({ category, businesses, tags = [], selectedTag, filter
                   selectedTag === tag.slug ? styles.active : ''
                 }`}
               >
-                {locale === 'ar' ? tag.name : tag.name}
+                {locale === 'ar' ? tag.name_ar : tag.name}
                 {tag.icon && <span className={styles.badge}>{tag.icon}</span>}
               </Link>
             ))}
@@ -115,26 +88,19 @@ const BusinessListView = ({ category, businesses, tags = [], selectedTag, filter
 
         {/* Sort/Filter Bar */}
         <div className={styles.sortBar} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-          <FilterDropdown
-            label={t('rating.label')}
-            options={ratingOptions}
-            paramName="rating"
-            currentValue={filters?.rating?.toString()}
-          />
-
-          <FilterDropdown
-            label={t('verified.label')}
-            options={verifiedOptions}
-            paramName="filter"
-            currentValue={getVerifiedValue()}
-          />
-
-          <FilterDropdown
-            label={t('sort.label')}
-            options={sortOptions}
-            paramName="sort"
-            currentValue={filters?.sort}
-          />
+          {/* Render dynamic filters from API */}
+          {dynamicFilters.map((filter) => (
+            <FilterDropdown
+              key={filter.id}
+              label={filter.label}
+              options={filter.options.map(opt => ({
+                label: opt.label,
+                value: opt.slug === 'all' ? 'all' : opt.value
+              }))}
+              paramName={filter.slug}
+              currentValue={getCurrentFilterValue(filter.slug)}
+            />
+          ))}
         </div>
 
         {/* Business Grid */}

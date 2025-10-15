@@ -11,9 +11,11 @@ interface FeaturedSectionProps {
   businesses: Business[];
   viewAllLink: string;
   locale?: string;
+  backgroundColor?: string;
+  ctaText?: string;
 }
 
-const FeaturedSection = ({ title, businesses, viewAllLink, locale = 'ar' }: FeaturedSectionProps) => {
+const FeaturedSection = ({ title, businesses, viewAllLink, locale = 'ar', backgroundColor, ctaText }: FeaturedSectionProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -78,11 +80,14 @@ const FeaturedSection = ({ title, businesses, viewAllLink, locale = 'ar' }: Feat
   }
 
   return (
-    <section className={styles.featuredSection}>
+    <section
+      className={styles.featuredSection}
+      style={backgroundColor ? { backgroundColor } : undefined}
+    >
       <div className={styles.header} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
         <h2 className={styles.title}>{title}</h2>
         <Link href={viewAllLink} className={styles.viewAll}>
-          {locale === 'ar' ? 'شاهد الكل' : 'View All'}
+          {ctaText || (locale === 'ar' ? 'شاهد الكل' : 'View All')}
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path
               d={locale === 'ar' ? 'M12.5 15L7.5 10L12.5 5' : 'M7.5 15L12.5 10L7.5 5'}

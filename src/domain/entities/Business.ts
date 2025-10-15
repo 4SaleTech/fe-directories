@@ -22,11 +22,12 @@ export interface Business {
   category_slug?: string;
   logo?: string;
   cover_image?: string;
-  rating: number;
-  reviews_count: number;
+  rating: {
+    average: number;
+    count: number;
+  };
   views_count: number;
-  is_verified: boolean;
-  is_featured: boolean;
+  attributes?: Record<string, string>; // Dynamic attributes (e.g., verified: "true", featured: "false", premium: "true")
   is_open: boolean;
   whatsapp_number?: string;
   contact_numbers?: string;
@@ -41,6 +42,10 @@ export interface Business {
   distance?: number; // in minutes or km
   price_range?: string; // e.g., "9 د.ك"
   address?: string; // Business address
+  location?: {
+    latitude?: number;
+    longitude?: number;
+  };
   available_tabs?: AvailableTabs;
 }
 

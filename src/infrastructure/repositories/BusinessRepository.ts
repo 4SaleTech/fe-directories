@@ -4,29 +4,32 @@ import { Business, Service, Review, WorkingHours, Branch, FAQ, BusinessMedia } f
 // Backend response type (single language based on X-Language header)
 interface BusinessDTO {
   id: number;
+  user_id: number;
   name: string;
   slug: string;
+  category_slug?: string;
   about?: string;
-  category_id: number;
-  owner_id?: number;
-  phone?: string;
-  email?: string;
-  website?: string;
-  address?: string;
-  latitude?: number;
-  longitude?: number;
   logo?: string;
   cover_image?: string;
-  is_verified: boolean;
-  is_featured: boolean;
-  view_count: number;
-  rating_avg: number;
-  rating_count: number;
+  ad_image?: string;
+  contact_info?: any;
   social_media?: {
     facebook?: string;
     instagram?: string;
     twitter?: string;
   };
+  location?: {
+    latitude?: number;
+    longitude?: number;
+  };
+  attributes?: Record<string, string>;
+  view_count: number;
+  rating: {
+    average: number;
+    count: number;
+  };
+  status: string;
+  tags?: any[];
   available_tabs?: {
     has_branches: boolean;
     has_working_hours: boolean;
@@ -41,6 +44,10 @@ interface BusinessDTO {
 
 // Map backend DTO to frontend entity
 function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
+  // Extract contact info
+  const contactInfo = dto.contact_info || {};
+  const phone = contactInfo.phone || contactInfo.whatsapp;
+
   return {
     id: dto.id,
     slug: dto.slug,
@@ -48,30 +55,34 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     name_ar: dto.name,
     about: dto.about,
     about_ar: dto.about,
-    category_id: dto.category_id,
+    category_id: 0, // Not provided in new API, set to 0 for compatibility
+    category_slug: dto.category_slug,
     logo: dto.logo,
     cover_image: dto.cover_image,
-    rating: dto.rating_avg,
-    reviews_count: dto.rating_count,
+    rating: dto.rating,
     views_count: dto.view_count,
-    is_verified: dto.is_verified,
-    is_featured: dto.is_featured,
+    attributes: dto.attributes,
     is_open: true, // Would need to calculate from working hours
-    whatsapp_number: dto.phone,
-    contact_numbers: dto.phone,
-    email: dto.email,
-    website: dto.website,
-    address: dto.address,
+    whatsapp_number: phone,
+    contact_numbers: phone,
+    email: contactInfo.email,
+    website: contactInfo.website,
+    address: contactInfo.address,
+    location: dto.location,
     social_media: dto.social_media,
+    tags: dto.tags,
     available_tabs: dto.available_tabs,
   };
 }
 
 export class BusinessRepository {
-  async getBusinessBySlug(slug: string, locale: string = 'ar'): Promise<Business> {
-    const response = await apiClient.get<{ data: BusinessDTO }>(`/directories/businesses/${slug}`, {
-      headers: { 'X-Language': locale },
-    });
+  async getBusinessBySlug(categorySlug: string, businessSlug: string, locale: string = 'ar'): Promise<Business> {
+    const response = await apiClient.get<{ data: BusinessDTO }>(
+      `/categories/${categorySlug}/${businessSlug}`,
+      {
+        headers: { 'Accept-Language': locale },
+      }
+    );
     return mapBusinessDTO(response.data, locale);
   }
 

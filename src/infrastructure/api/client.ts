@@ -21,10 +21,9 @@ class ApiClient {
         config.headers['Version-Number'] = process.env.NEXT_PUBLIC_VERSION_NUMBER || '30.5.4';
         config.headers['Application-Source'] = process.env.NEXT_PUBLIC_APPLICATION_SOURCE || 'q84sale';
 
-        // Add language preference (X-Language takes precedence over Accept-Language)
-        const locale = config.headers['X-Language'] || 'ar';
-        config.headers['X-Language'] = locale;
-        config.headers['Accept-Language'] = locale; // Fallback
+        // Add language preference using standard Accept-Language header
+        const locale = config.headers['Accept-Language'] || config.headers['X-Language'] || 'ar';
+        config.headers['Accept-Language'] = locale;
 
         // Add JWT token if available (for authenticated requests)
         if (typeof window !== 'undefined') {

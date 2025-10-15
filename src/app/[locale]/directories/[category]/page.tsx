@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { categoryRepository } from '@/infrastructure/repositories/CategoryRepository';
 import { tagRepository } from '@/infrastructure/repositories/TagRepository';
+import { filterRepository } from '@/infrastructure/repositories/FilterRepository';
 import BusinessListView from '@/presentation/components/BusinessListView/BusinessListView';
 import { buildCanonicalUrl, buildPageTitle, buildPageDescription, shouldIndexPage } from '@/lib/seo';
 
@@ -107,11 +108,18 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     // Fetch category data
     const categoryData = await categoryRepository.getCategoryBySlug(category, locale);
 
-    // Parse filters from searchParams
-    const filters = {
-      verified: searchParams.verified === 'true' ? true : undefined,
-      featured: searchParams.featured === 'true' ? true : undefined,
-      min_rating: searchParams.rating ? parseFloat(searchParams.rating) : undefined,
+    // Parse filters from searchParams - collect ALL params except reserved ones
+    const reservedParams = ['page', 'limit', 'sort', 'tag'];
+    const dynamicFilters: Record<string, string> = {};
+
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (!reservedParams.includes(key) && value) {
+        dynamicFilters[key] = value;
+      }
+    });
+
+    const requestParams = {
+      filters: Object.keys(dynamicFilters).length > 0 ? dynamicFilters : undefined,
       sort: (searchParams.sort as 'name' | 'rating' | 'views' | 'newest') || 'rating',
       page: searchParams.page ? parseInt(searchParams.page) : 1,
       limit: 20,
@@ -121,12 +129,15 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     // Fetch businesses for this category
     const { businesses, total, page, limit, has_more } = await categoryRepository.getBusinessesByCategory(
       category,
-      filters,
+      requestParams,
       locale
     );
 
     // Fetch tags for this category
     const tags = await tagRepository.getTagsByCategory(category, locale);
+
+    // Fetch dynamic filters for this category
+    const filterDefinitions = await filterRepository.getFiltersByCategory(category, locale);
 
     return (
       <BusinessListView
@@ -138,11 +149,10 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         tags={tags}
         selectedTag={searchParams.tag || null}
         filters={{
-          verified: filters.verified,
-          featured: filters.featured,
-          rating: filters.min_rating,
-          sort: filters.sort,
+          filters: dynamicFilters,
+          sort: requestParams.sort,
         }}
+        dynamicFilters={filterDefinitions}
       />
     );
   } catch (error) {

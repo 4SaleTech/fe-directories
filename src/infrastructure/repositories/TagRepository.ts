@@ -16,7 +16,7 @@ export class TagRepository {
 
       const response = await fetch(`${this.baseUrl}/tags?${params.toString()}`, {
         headers: {
-          'X-Language': language,
+          'Accept-Language': language,
         },
         cache: 'no-store',
       });
@@ -37,7 +37,7 @@ export class TagRepository {
     try {
       const response = await fetch(`${this.baseUrl}/tags/${slug}`, {
         headers: {
-          'X-Language': language,
+          'Accept-Language': language,
         },
         cache: 'no-store',
       });
@@ -61,7 +61,7 @@ export class TagRepository {
     try {
       const response = await fetch(`${this.baseUrl}/categories/${categorySlug}/tags`, {
         headers: {
-          'X-Language': language,
+          'Accept-Language': language,
         },
         cache: 'no-store',
       });

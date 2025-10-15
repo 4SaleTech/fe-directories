@@ -77,7 +77,7 @@ const RestaurantCard = ({ business, variant = 'default' }: RestaurantCardProps) 
 
         {/* Top-right badges */}
         <div className={styles.badges}>
-          {business.is_featured && (
+          {business.attributes?.featured === 'true' && (
             <div className={styles.featuredBadge}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path
@@ -114,20 +114,20 @@ const RestaurantCard = ({ business, variant = 'default' }: RestaurantCardProps) 
         <h3 className={styles.title}>{business.name_ar || business.name}</h3>
 
         <div className={styles.ratingRow}>
-          <span className={styles.reviewCount}>({business.reviews_count || 250} تقييم)</span>
+          <span className={styles.reviewCount}>({business.rating?.count || 0} تقييم)</span>
           <span className={styles.priceRange}>{business.price_range}</span>
           <div className={styles.stars}>
             {Array.from({ length: 5 }, (_, i) => (
               <svg key={i} width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path
                   d="M8 1.5L9.84 5.24L14 5.86L11 8.78L11.68 13L8 11.04L4.32 13L5 8.78L2 5.86L6.16 5.24L8 1.5Z"
-                  fill={i < Math.floor(business.rating || 0) ? '#FFB700' : '#E9EBF2'}
+                  fill={i < Math.floor(business.rating?.average || 0) ? '#FFB700' : '#E9EBF2'}
                 />
               </svg>
             ))}
           </div>
           <div className={styles.rating}>
-            <span className={styles.ratingValue}>{(business.rating || 0).toFixed(1)}</span>
+            <span className={styles.ratingValue}>{(business.rating?.average || 0).toFixed(1)}</span>
           </div>
         </div>
 

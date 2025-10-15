@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { categoryRepository } from '@/infrastructure/repositories/CategoryRepository';
 import { businessRepository } from '@/infrastructure/repositories/BusinessRepository';
+import { sectionRepository } from '@/infrastructure/repositories/SectionRepository';
 import HeroBanner from '@/presentation/components/HeroBanner/HeroBanner';
 import { SearchBar } from '@/presentation/components/SearchBar';
 import CategoryGrid from '@/presentation/components/CategoryGrid/CategoryGrid';
@@ -23,17 +24,11 @@ export default async function DirectoriesPage({ params }: DirectoriesPageProps) 
   const allCategories = await categoryRepository.getAllCategories(locale);
   const categories = allCategories.slice(0, 8);
 
-  // Fetch top 5 businesses for each category (dynamic sections)
-  const categorySections = await Promise.all(
-    allCategories.map(async (category) => {
-      const response = await categoryRepository.getBusinessesByCategory(
-        category.slug,
-        { limit: 5, sort: 'rating' },
-        locale
-      );
-      return { category, businesses: response.businesses };
-    })
-  );
+  // Create a map of category ID to slug for view all links
+  const categoryMap = new Map(allCategories.map(cat => [cat.id, cat.slug]));
+
+  // Fetch dynamic sections from the API
+  const sections = await sectionRepository.getAllSections(locale);
 
   return (
     <div className={styles.homePage}>
@@ -50,19 +45,60 @@ export default async function DirectoriesPage({ params }: DirectoriesPageProps) 
       {/* Divider */}
       <div className={styles.divider} />
 
-      {/* Dynamic Category Sections */}
+      {/* Dynamic Sections from API */}
       <section className={styles.featuredSections}>
-        {categorySections.map(({ category, businesses }) =>
-          businesses.length > 0 ? (
+        {sections.map((section) => {
+          // Only render sections that have businesses
+          if (!section.businesses || section.businesses.length === 0) {
+            return null;
+          }
+
+          // Determine the title based on locale
+          const title = locale === 'ar' && section.title_ar ? section.title_ar : section.title;
+
+          // Get CTA text from new structure
+          const ctaText = section.cta.title;
+
+          // Build query parameters from section CTA filters and tags
+          const queryParams = new URLSearchParams();
+
+          // Add tag filter (only first tag, as category page supports single tag)
+          if (section.cta.tags && section.cta.tags.length > 0) {
+            queryParams.set('tag', section.cta.tags[0]);
+          }
+
+          // Add filter criteria dynamically
+          if (section.cta.filters) {
+            Object.entries(section.cta.filters).forEach(([key, value]) => {
+              if (value) {
+                queryParams.set(key, value);
+              }
+            });
+          }
+
+          // Generate view all link with query params
+          // Use category slug from CTA if available, otherwise link to home
+          const categorySlug = section.cta.category_slug;
+
+          const baseUrl = categorySlug
+            ? `/${locale}/directories/${categorySlug}`
+            : `/${locale}/directories`;
+
+          const queryString = queryParams.toString();
+          const viewAllLink = queryString ? `${baseUrl}?${queryString}` : baseUrl;
+
+          return (
             <FeaturedSection
-              key={category.id}
-              title={locale === 'ar' ? `الأعلى تقييماً في ${category.name}` : `Top Rated in ${category.name}`}
-              businesses={businesses}
-              viewAllLink={`/${locale}/directories/${category.slug}`}
+              key={section.id}
+              title={title}
+              businesses={section.businesses}
+              viewAllLink={viewAllLink}
               locale={locale}
+              backgroundColor={section.background_color}
+              ctaText={ctaText}
             />
-          ) : null
-        )}
+          );
+        })}
       </section>
     </div>
   );
