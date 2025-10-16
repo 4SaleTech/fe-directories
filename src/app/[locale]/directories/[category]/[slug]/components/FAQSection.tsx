@@ -14,16 +14,8 @@ const FAQSection = ({ faqs, locale }: FAQSectionProps) => {
   const t = useTranslations('business');
   const [openItems, setOpenItems] = useState<Set<number>>(new Set());
 
+  // FAQs are now pre-filtered and sorted on the server
   if (!faqs || faqs.length === 0) {
-    return null;
-  }
-
-  // Filter active FAQs and sort by display order
-  const activeFaqs = faqs
-    .filter((faq) => faq.is_active)
-    .sort((a, b) => a.display_order - b.display_order);
-
-  if (activeFaqs.length === 0) {
     return null;
   }
 
@@ -43,7 +35,7 @@ const FAQSection = ({ faqs, locale }: FAQSectionProps) => {
     <section id="faqs" className={styles.section}>
       <h2 className={styles.sectionTitle}>{t('faqs')}</h2>
       <div className={styles.faqList}>
-        {activeFaqs.map((faq) => {
+        {faqs.map((faq) => {
           const isOpen = openItems.has(faq.id);
           const question = locale === 'ar' ? faq.question_ar : faq.question;
           const answer = locale === 'ar' ? faq.answer_ar : faq.answer;

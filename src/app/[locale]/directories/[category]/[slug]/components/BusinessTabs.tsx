@@ -17,22 +17,21 @@ const BusinessTabs = ({ availableTabs, activeTab, onTabChange }: BusinessTabsPro
   const t = useTranslations('business');
 
   // Only show About, Media, and Reviews as top-level tabs
-  const tabs: { key: TabKey; labelKey: string; available: boolean }[] = [
-    { key: 'about', labelKey: 'about', available: true }, // Always show About
-    { key: 'media', labelKey: 'media', available: availableTabs.has_media },
-    { key: 'reviews', labelKey: 'reviews', available: availableTabs.has_reviews },
+  // Tabs are pre-filtered on the server to prevent hydration issues
+  const tabs: { key: TabKey; labelKey: string }[] = [
+    { key: 'about', labelKey: 'about' }, // Always show About
+    ...(availableTabs.has_media ? [{ key: 'media' as TabKey, labelKey: 'media' }] : []),
+    ...(availableTabs.has_reviews ? [{ key: 'reviews' as TabKey, labelKey: 'reviews' }] : []),
   ];
 
   const handleTabClick = (tabKey: TabKey) => {
     onTabChange(tabKey);
   };
 
-  const visibleTabs = tabs.filter((tab) => tab.available);
-
   return (
     <nav className={styles.tabsContainer}>
       <div className={styles.tabs}>
-        {visibleTabs.map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab.key}
             className={`${styles.tab} ${activeTab === tab.key ? styles.active : ''}`}

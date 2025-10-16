@@ -75,21 +75,32 @@ export default async function BusinessProfilePage({ params }: BusinessProfilePag
       has_reviews: false,
     };
 
+    // Determine if we need to fetch About tab data (branches, working hours, FAQs)
+    const needsAboutData = available_tabs.has_branches || available_tabs.has_working_hours || available_tabs.has_faqs;
+
     // Fetch additional data in parallel based on available tabs
-    const [workingHoursData, faqs, branches, mediaData] = await Promise.all([
-      available_tabs.has_working_hours
-        ? businessRepository.getWorkingHours(slug).catch(() => [])
-        : Promise.resolve([]),
-      available_tabs.has_faqs
-        ? businessRepository.getFAQs(slug, locale).catch(() => [])
-        : Promise.resolve([]),
-      available_tabs.has_branches
-        ? businessRepository.getBranches(slug, locale).catch(() => [])
-        : Promise.resolve([]),
+    const [aboutData, mediaData] = await Promise.all([
+      needsAboutData
+        ? businessRepository.getAboutData(slug, locale).catch(() => ({
+            branches: [],
+            workingHours: [],
+            faqs: [],
+          }))
+        : Promise.resolve({ branches: [], workingHours: [], faqs: [] }),
       available_tabs.has_media
         ? businessRepository.getMedia(slug).catch(() => ({ media: [], total: 0 }))
         : Promise.resolve({ media: [], total: 0 }),
     ]);
+
+    const { branches, workingHours: workingHoursData, faqs } = aboutData;
+
+    // Pre-filter and sort FAQs on the server to prevent hydration issues
+    const activeFaqs = faqs
+      .filter((faq) => faq.is_active)
+      .sort((a, b) => a.display_order - b.display_order);
+
+    // Pre-sort working hours by day on the server to prevent hydration issues
+    const sortedWorkingHours = [...workingHoursData].sort((a, b) => a.day - b.day);
 
     return (
       <div className={styles.page}>
@@ -101,8 +112,8 @@ export default async function BusinessProfilePage({ params }: BusinessProfilePag
               locale={locale}
               availableTabs={available_tabs}
               branches={branches}
-              workingHours={workingHoursData}
-              faqs={faqs}
+              workingHours={sortedWorkingHours}
+              faqs={activeFaqs}
               media={mediaData.media}
             />
           </main>

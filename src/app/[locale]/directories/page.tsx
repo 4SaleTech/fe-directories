@@ -20,12 +20,8 @@ interface DirectoriesPageProps {
 export default async function DirectoriesPage({ params }: DirectoriesPageProps) {
   const { locale } = params;
 
-  // Fetch categories for the grid (limit to 8 for 2 rows of 4)
-  const allCategories = await categoryRepository.getAllCategories(locale);
-  const categories = allCategories.slice(0, 8);
-
-  // Create a map of category ID to slug for view all links
-  const categoryMap = new Map(allCategories.map(cat => [cat.id, cat.slug]));
+  // Fetch all categories for horizontal scrollable row
+  const categories = await categoryRepository.getAllCategories(locale);
 
   // Fetch dynamic sections from the API
   const sections = await sectionRepository.getAllSections(locale);

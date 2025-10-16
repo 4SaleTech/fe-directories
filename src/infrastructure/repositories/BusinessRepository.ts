@@ -207,6 +207,37 @@ export class BusinessRepository {
     );
     return response.data || { media: [], total: 0 };
   }
+
+  async getAboutData(slug: string, locale: string = 'ar'): Promise<{
+    branches: Branch[];
+    workingHours: WorkingHours[];
+    faqs: FAQ[];
+    isOpen?: boolean;
+    statusText?: string;
+  }> {
+    const response = await apiClient.get<{
+      data: {
+        branches: Branch[];
+        working_hours: {
+          hours: WorkingHours[];
+          is_open: boolean;
+          status_text: string;
+        };
+        faqs: FAQ[];
+      };
+    }>(
+      `/directories/businesses/${slug}/about`,
+      { headers: { 'Accept-Language': locale } }
+    );
+
+    return {
+      branches: response.data?.branches || [],
+      workingHours: response.data?.working_hours?.hours || [],
+      faqs: response.data?.faqs || [],
+      isOpen: response.data?.working_hours?.is_open,
+      statusText: response.data?.working_hours?.status_text,
+    };
+  }
 }
 
 export const businessRepository = new BusinessRepository();

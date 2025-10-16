@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { WorkingHours } from '@/domain/entities/Business';
 import styles from './WorkingHoursSection.module.scss';
@@ -27,11 +28,16 @@ const WorkingHoursSection = ({ workingHours, locale }: WorkingHoursSectionProps)
     'saturday',
   ];
 
-  // Sort working hours by day
-  const sortedHours = [...workingHours].sort((a, b) => a.day - b.day);
+  // Working hours are now pre-sorted on the server to prevent hydration issues
 
   // Get current day (0 = Sunday, 1 = Monday, etc.)
-  const currentDay = new Date().getDay();
+  // Use -1 for server render to avoid hydration mismatch
+  const [currentDay, setCurrentDay] = useState<number>(-1);
+
+  useEffect(() => {
+    // Set actual current day only on client side
+    setCurrentDay(new Date().getDay());
+  }, []);
 
   const formatTime = (time: string) => {
     // Assuming time is in format "HH:mm:ss" or "HH:mm"
@@ -56,7 +62,7 @@ const WorkingHoursSection = ({ workingHours, locale }: WorkingHoursSectionProps)
     <section id="working-hours" className={styles.section}>
       <h2 className={styles.sectionTitle}>{t('workingHours')}</h2>
       <div className={styles.hoursTable}>
-        {sortedHours.map((hours) => {
+        {workingHours.map((hours) => {
           const isToday = hours.day === currentDay;
           const dayName = t(daysOfWeek[hours.day]);
 
