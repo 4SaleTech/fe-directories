@@ -1,5 +1,6 @@
 import { apiClient } from '../api/client';
-import { Business, Service, Review, WorkingHours, Branch, FAQ, BusinessMedia } from '@/domain/entities/Business';
+import { Business, Review, WorkingHours, Branch, FAQ, BusinessMedia } from '@/domain/entities/Business';
+import { ForSaleService } from '@/domain/entities/ForSale';
 
 // Backend response type (single language based on X-Language header)
 interface BusinessDTO {
@@ -150,12 +151,12 @@ export class BusinessRepository {
     return response.data?.working_hours || [];
   }
 
-  async getServices(slug: string, locale: string = 'ar'): Promise<Service[]> {
-    const response = await apiClient.get<{ data: Service[] }>(
+  async getServices(slug: string, locale: string = 'ar'): Promise<ForSaleService[]> {
+    const response = await apiClient.get<{ data: { services: ForSaleService[]; total: number } }>(
       `/directories/businesses/${slug}/services`,
       { headers: { 'X-Language': locale } }
     );
-    return response.data || [];
+    return response.data?.services || [];
   }
 
   async getReviews(

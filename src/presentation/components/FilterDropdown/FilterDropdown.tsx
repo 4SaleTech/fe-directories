@@ -30,6 +30,10 @@ const FilterDropdown = ({ label, options, paramName, currentValue }: FilterDropd
   // Set mounted state for portal
   useEffect(() => {
     setMounted(true);
+    return () => {
+      setMounted(false);
+      setIsOpen(false);
+    };
   }, []);
 
   // Update dropdown position when opened
@@ -133,7 +137,7 @@ const FilterDropdown = ({ label, options, paramName, currentValue }: FilterDropd
         </button>
       </div>
 
-      {mounted && isOpen && typeof document !== 'undefined' && createPortal(
+      {mounted && isOpen && createPortal(
         <div
           ref={dropdownRef}
           className={styles.dropdownPortal}

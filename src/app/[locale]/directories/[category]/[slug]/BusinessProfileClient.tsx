@@ -5,6 +5,7 @@ import { Business, Branch, WorkingHours, FAQ, BusinessMedia, AvailableTabs } fro
 import {
   BusinessTabs,
   AboutTabContent,
+  ServicesTabContent,
   MediaTabContent,
   ReviewsTabContent,
 } from './components';
@@ -42,6 +43,8 @@ export default function BusinessProfileClient({
             faqs={faqs}
           />
         );
+      case 'services':
+        return <ServicesTabContent businessSlug={business.slug} locale={locale} />;
       case 'media':
         return <MediaTabContent media={media || []} locale={locale} />;
       case 'reviews':

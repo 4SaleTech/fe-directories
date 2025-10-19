@@ -1,9 +1,9 @@
 export interface ForSaleService {
   id: string;
-  icon: string;
+  icon?: string;
   name: string;
   price?: number;
-  price_start_from: boolean;
+  price_start_from?: boolean;
 }
 
 export interface ForSaleListing {

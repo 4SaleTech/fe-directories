@@ -11,15 +11,16 @@ interface BusinessTabsProps {
   onTabChange: (tab: string) => void;
 }
 
-type TabKey = 'about' | 'media' | 'reviews';
+type TabKey = 'about' | 'services' | 'media' | 'reviews';
 
 const BusinessTabs = ({ availableTabs, activeTab, onTabChange }: BusinessTabsProps) => {
   const t = useTranslations('business');
 
-  // Only show About, Media, and Reviews as top-level tabs
+  // Show tabs based on available data
   // Tabs are pre-filtered on the server to prevent hydration issues
   const tabs: { key: TabKey; labelKey: string }[] = [
     { key: 'about', labelKey: 'about' }, // Always show About
+    ...(availableTabs.has_services ? [{ key: 'services' as TabKey, labelKey: 'services' }] : []),
     ...(availableTabs.has_media ? [{ key: 'media' as TabKey, labelKey: 'media' }] : []),
     ...(availableTabs.has_reviews ? [{ key: 'reviews' as TabKey, labelKey: 'reviews' }] : []),
   ];

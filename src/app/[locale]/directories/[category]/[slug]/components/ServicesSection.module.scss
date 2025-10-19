@@ -1,0 +1,142 @@
+@import '@/presentation/styles/_variables';
+@import '@/presentation/styles/_mixins';
+
+.section {
+  padding: $spacing-6 0;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.sectionTitle {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-6 0;
+  line-height: $line-height-tight;
+}
+
+.servicesList {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-surface;
+  border-radius: $radius-xl;
+  overflow: hidden;
+}
+
+// Service Card Styles (matching Figma design)
+.serviceCard {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-3;
+  padding: $spacing-3 0;
+  border-bottom: 1px solid $color-border;
+  transition: background-color $transition-base;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+}
+
+.serviceIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 30px;
+  background-color: #fff0ea; // Energy/Orange 50
+  border-radius: $radius-md;
+  flex-shrink: 0;
+}
+
+.iconImage {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.iconPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #ff6b35; // Orange color to match background theme
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.serviceName {
+  flex: 1;
+  font-size: 16px; // Heading/H6 - 16 Bold
+  font-weight: $font-weight-bold;
+  color: #0a1243; // Neutral/Gray 900
+  margin: 0;
+  line-height: 24px;
+  text-align: right;
+  min-width: 0; // Allow text to shrink
+}
+
+.servicePrice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.priceLabel {
+  font-size: 12px; // Body/Text 6 - 12 Medium
+  font-weight: 500;
+  color: #5c6499; // Neutral/Gray 600
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.priceValue {
+  font-size: 16px; // Heading/H6 - 16 Bold
+  font-weight: $font-weight-bold;
+  color: #1d4aff; // 4Sale/Primary 500
+  line-height: 24px;
+  white-space: nowrap;
+}
+
+// RTL Support
+[dir='rtl'] {
+  .serviceCard {
+    direction: rtl;
+  }
+
+  .serviceName {
+    text-align: right;
+  }
+
+  .servicePrice {
+    align-items: flex-end;
+  }
+}
+
+[dir='ltr'] {
+  .serviceCard {
+    flex-direction: row-reverse;
+  }
+
+  .serviceName {
+    text-align: left;
+  }
+
+  .servicePrice {
+    align-items: flex-start;
+  }
+}

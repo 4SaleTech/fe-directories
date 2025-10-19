@@ -23,16 +23,6 @@ export class ForSaleRepository {
     };
   }
 
-  async getServices(slug: string): Promise<ForSaleServicesResponse> {
-    const response = await apiClient.get<{ data: ForSaleServicesResponse }>(
-      `/directories/businesses/${slug}/forsale-services`
-    );
-
-    return {
-      services: response.data.services || [],
-      total: response.data.total || 0,
-    };
-  }
 }
 
 export const forSaleRepository = new ForSaleRepository();
