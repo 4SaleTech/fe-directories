@@ -33,6 +33,10 @@ const BusinessListView = ({ category, businesses, tags = [], selectedTag, filter
 
   // Helper function to get current filter value from the filters object
   const getCurrentFilterValue = (filterSlug: string): string => {
+    // Sort is stored separately from other filters
+    if (filterSlug === 'sort') {
+      return filters?.sort || 'rating';
+    }
     return filters?.filters[filterSlug] || 'all';
   };
 

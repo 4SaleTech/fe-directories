@@ -68,7 +68,7 @@ const RestaurantCard = ({ business, variant = 'default' }: RestaurantCardProps) 
         {/* Business Avatar */}
         <div className={styles.avatar}>
           <Image
-            src={business.cover_image || '/images/placeholder.jpg'}
+            src={business.logo || '/images/placeholder.jpg'}
             alt={business.name_ar || business.name}
             fill
             className={styles.avatarImage}

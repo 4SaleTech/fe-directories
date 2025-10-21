@@ -22,9 +22,8 @@ const BranchesSection = ({ branches, locale }: BranchesSectionProps) => {
       const url = `https://www.google.com/maps/search/?api=1&query=${branch.latitude},${branch.longitude}`;
       window.open(url, '_blank', 'noopener,noreferrer');
     } else {
-      // Fallback to address search
-      const address = locale === 'ar' ? branch.address_ar : branch.address;
-      const encodedAddress = encodeURIComponent(address);
+      // Fallback to address search (already localized by API)
+      const encodedAddress = encodeURIComponent(branch.address);
       const url = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
       window.open(url, '_blank', 'noopener,noreferrer');
     }
@@ -39,8 +38,9 @@ const BranchesSection = ({ branches, locale }: BranchesSectionProps) => {
       <h2 className={styles.sectionTitle}>{t('branches')}</h2>
       <div className={styles.branchesList}>
         {branches.map((branch) => {
-          const branchName = locale === 'ar' ? branch.name_ar : branch.name;
-          const branchAddress = locale === 'ar' ? branch.address_ar : branch.address;
+          // API already returns localized data based on language
+          const branchName = branch.name;
+          const branchAddress = branch.address;
 
           return (
             <div key={branch.id} className={styles.branchCard}>

@@ -3,6 +3,12 @@
 
 .featuredSection {
   margin-block: 0;
+  padding: $spacing-4 $spacing-4 $spacing-6;
+  border-radius: $radius-xl;
+
+  @include lg {
+    padding: $spacing-4 $spacing-4 $spacing-6;
+  }
 }
 
 .header {

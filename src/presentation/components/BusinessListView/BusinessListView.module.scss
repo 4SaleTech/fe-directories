@@ -75,7 +75,7 @@
   scroll-snap-type: x mandatory;
 
   @include lg {
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
     padding-block: $spacing-6;
   }
@@ -122,7 +122,7 @@
   @include hide-scrollbar;
 
   @include lg {
-    justify-content: center;
+    justify-content: flex-start;
     gap: $spacing-3;
     padding-block: $spacing-4;
   }
@@ -141,15 +141,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $spacing-2;
+  gap: 6px;
   width: 100%;
-  padding: $spacing-3 $spacing-4;
-  border-radius: $radius-md;
-  font-size: $font-size-base;
-  font-weight: $font-weight-medium;
-  color: $color-text-primary;
-  background-color: $color-surface;
-  border: 1px solid $color-border;
+  padding: 6px 12px;
+  border-radius: $radius-2xl; // 24px
+  font-size: $font-size-base; // 14px
+  font-weight: $font-weight-medium; // 500
+  color: $color-text-primary; // #021442
+  background-color: $color-surface; // #FFFFFF
+  border: 1px solid #DADFEB;
   transition: all $transition-base;
 
   &:hover {
@@ -158,6 +158,8 @@
 
   svg {
     flex-shrink: 0;
+    width: 16px;
+    height: 16px;
   }
 }
 

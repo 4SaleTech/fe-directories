@@ -37,8 +37,9 @@ const FAQSection = ({ faqs, locale }: FAQSectionProps) => {
       <div className={styles.faqList}>
         {faqs.map((faq) => {
           const isOpen = openItems.has(faq.id);
-          const question = locale === 'ar' ? faq.question_ar : faq.question;
-          const answer = locale === 'ar' ? faq.answer_ar : faq.answer;
+          // API already returns localized data based on language
+          const question = faq.question;
+          const answer = faq.answer;
 
           return (
             <div key={faq.id} className={styles.faqItem}>

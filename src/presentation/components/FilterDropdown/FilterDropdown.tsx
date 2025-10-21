@@ -105,8 +105,10 @@ const FilterDropdown = ({ label, options, paramName, currentValue }: FilterDropd
     setIsOpen(false);
   };
 
-  // Find current option label
-  const currentOption = options.find(opt => opt.value === currentValue);
+  // Show filter name when 'all' or no selection, otherwise show selected option
+  const currentOption = currentValue && currentValue !== 'all'
+    ? options.find(opt => opt.value === currentValue)
+    : null;
   const displayLabel = currentOption?.label || label;
 
   return (
@@ -120,14 +122,14 @@ const FilterDropdown = ({ label, options, paramName, currentValue }: FilterDropd
         >
           <span>{displayLabel}</span>
           <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
             fill="none"
             className={isOpen ? styles.rotated : ''}
           >
             <path
-              d="M5 7.5L10 12.5L15 7.5"
+              d="M4 6L8 10L12 6"
               stroke="currentColor"
               strokeWidth="1.5"
               strokeLinecap="round"

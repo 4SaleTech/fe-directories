@@ -16,16 +16,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $spacing-2;
+  gap: 6px; // Figma: 6px gap between text and icon
   width: 100%;
-  padding: $spacing-2 $spacing-4;
-  height: 32px;
-  border-radius: $radius-md;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $color-text-primary;
-  background-color: $color-surface;
-  border: 1px solid $color-border;
+  padding: 6px 12px; // Figma: 6px vertical, 12px horizontal
+  height: auto; // Let content determine height
+  border-radius: $radius-2xl; // Figma: 24px
+  font-size: $font-size-base; // Figma: 14px
+  font-weight: $font-weight-medium; // Figma: 500
+  color: $color-text-primary; // Figma: #021442
+  background-color: $color-surface; // Figma: #FFFFFF
+  border: 1px solid #DADFEB; // Figma exact color
   white-space: nowrap;
   transition: all $transition-base;
 
@@ -35,8 +35,8 @@
 
   svg {
     flex-shrink: 0;
-    width: 16px;
-    height: 16px;
+    width: 16px; // Figma: 16px
+    height: 16px; // Figma: 16px
     transition: transform $transition-base;
 
     &.rotated {
