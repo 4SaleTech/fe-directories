@@ -22,6 +22,10 @@ const nextConfig = {
         hostname: 'media.q84sale.com',
       },
       {
+        protocol: 'https',
+        hostname: 'staging-media.q84sale.com',
+      },
+      {
         protocol: 'http',
         hostname: 'localhost',
       },

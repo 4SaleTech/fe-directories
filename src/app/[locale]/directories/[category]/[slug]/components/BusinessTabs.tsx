@@ -1,46 +1,36 @@
 'use client';
 
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { AvailableTabs } from '@/domain/entities/Business';
+import { BusinessTab } from '@/domain/entities/Business';
 import styles from './BusinessTabs.module.scss';
 
 interface BusinessTabsProps {
-  availableTabs: AvailableTabs;
+  tabs: BusinessTab[];
   activeTab: string;
   onTabChange: (tab: string) => void;
 }
 
-type TabKey = 'about' | 'services' | 'media' | 'reviews';
+const BusinessTabs = ({ tabs, activeTab, onTabChange }: BusinessTabsProps) => {
+  // Filter only enabled tabs and sort by order
+  const enabledTabs = tabs
+    .filter(tab => tab.enabled)
+    .sort((a, b) => a.order - b.order);
 
-const BusinessTabs = ({ availableTabs, activeTab, onTabChange }: BusinessTabsProps) => {
-  const t = useTranslations('business');
-
-  // Show tabs based on available data
-  // Tabs are pre-filtered on the server to prevent hydration issues
-  const tabs: { key: TabKey; labelKey: string }[] = [
-    { key: 'about', labelKey: 'about' }, // Always show About
-    ...(availableTabs.has_services ? [{ key: 'services' as TabKey, labelKey: 'services' }] : []),
-    ...(availableTabs.has_media ? [{ key: 'media' as TabKey, labelKey: 'media' }] : []),
-    ...(availableTabs.has_reviews ? [{ key: 'reviews' as TabKey, labelKey: 'reviews' }] : []),
-  ];
-
-  const handleTabClick = (tabKey: TabKey) => {
-    onTabChange(tabKey);
+  const handleTabClick = (tabSlug: string) => {
+    onTabChange(tabSlug);
   };
 
   return (
     <nav className={styles.tabsContainer}>
       <div className={styles.tabs}>
-        {tabs.map((tab) => (
+        {enabledTabs.map((tab) => (
           <button
-            key={tab.key}
-            className={`${styles.tab} ${activeTab === tab.key ? styles.active : ''}`}
-            onClick={() => handleTabClick(tab.key)}
-            aria-selected={activeTab === tab.key}
+            key={tab.slug}
+            className={`${styles.tab} ${activeTab === tab.slug ? styles.active : ''}`}
+            onClick={() => handleTabClick(tab.slug)}
+            aria-selected={activeTab === tab.slug}
             role="tab"
           >
-            {t(tab.labelKey)}
+            {tab.label}
           </button>
         ))}
       </div>

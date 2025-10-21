@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Category } from '@/domain/entities/Category';
+import IconRenderer from '@/presentation/components/IconRenderer/IconRenderer';
 import styles from './CategoryGrid.module.scss';
 
 interface CategoryGridProps {
@@ -26,7 +27,7 @@ const CategoryGrid = ({ categories, locale = 'ar' }: CategoryGridProps) => {
           >
             <div className={styles.iconWrapper}>
               {category.icon ? (
-                <span className={styles.icon}>{category.icon}</span>
+                <IconRenderer value={category.icon} size={48} className={styles.icon} />
               ) : (
                 <div className={styles.placeholder} />
               )}

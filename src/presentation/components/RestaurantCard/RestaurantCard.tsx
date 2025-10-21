@@ -149,7 +149,7 @@ const RestaurantCard = ({ business, variant = 'default' }: RestaurantCardProps) 
           <div className={styles.tags}>
             {business.tags.map((tag, index) => (
               <span key={tag.id || index} className={styles.tag}>
-                {locale === 'ar' ? (tag.name_ar || tag.name) : tag.name}
+                {tag.name}
               </span>
             ))}
           </div>

@@ -9,6 +9,17 @@ export interface AvailableTabs {
   has_reviews: boolean;
 }
 
+export interface BusinessTab {
+  id: number;
+  slug: string;
+  label: string; // Localized label from backend
+  type: 'native' | 'webview';
+  content_type: string;
+  order: number;
+  enabled: boolean;
+  webview_url?: string;
+}
+
 export interface Business {
   id: number;
   slug: string;
@@ -46,7 +57,8 @@ export interface Business {
     latitude?: number;
     longitude?: number;
   };
-  available_tabs?: AvailableTabs;
+  available_tabs?: AvailableTabs; // Deprecated: Use tabs array instead
+  tabs?: BusinessTab[]; // New: Localized tabs from backend
 }
 
 export interface WorkingHours {

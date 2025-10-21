@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Business } from '@/domain/entities/Business';
 import { Tag } from '@/domain/entities/Tag';
 import { Filter } from '@/infrastructure/repositories/FilterRepository';
+import IconRenderer from '@/presentation/components/IconRenderer/IconRenderer';
 import RestaurantCard from '../RestaurantCard/RestaurantCard';
 import FilterDropdown from '../FilterDropdown/FilterDropdown';
 import styles from './BusinessListView.module.scss';
@@ -79,8 +80,8 @@ const BusinessListView = ({ category, businesses, tags = [], selectedTag, filter
                   selectedTag === tag.slug ? styles.active : ''
                 }`}
               >
-                {locale === 'ar' ? tag.name_ar : tag.name}
-                {tag.icon && <span className={styles.badge}>{tag.icon}</span>}
+                {tag.name}
+                {tag.icon && <IconRenderer value={tag.icon} size={16} className={styles.badge} />}
               </Link>
             ))}
           </div>

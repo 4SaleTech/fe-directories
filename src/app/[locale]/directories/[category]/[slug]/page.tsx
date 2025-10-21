@@ -59,35 +59,27 @@ export default async function BusinessProfilePage({ params }: BusinessProfilePag
   const { locale, category, slug } = params;
 
   try {
-    // Fetch business data first to get available_tabs
+    // Fetch business data (now includes tabs array)
     const business = await businessRepository.getBusinessBySlug(category, slug, locale);
 
     // Increment view count (don't await to not block page render)
     businessRepository.incrementViews(slug).catch(() => {});
 
-    // Use available_tabs from API or default values
-    const available_tabs = business.available_tabs || {
-      has_branches: false,
-      has_working_hours: false,
-      has_faqs: false,
-      has_services: false,
-      has_media: false,
-      has_reviews: false,
-    };
+    // Check which tabs are enabled from the tabs array
+    const tabs = business.tabs || [];
+    const hasAboutTab = tabs.some(tab => tab.enabled && (tab.slug === 'about' || tab.content_type === 'about'));
+    const hasMediaTab = tabs.some(tab => tab.enabled && (tab.slug === 'media' || tab.content_type === 'media'));
 
-    // Determine if we need to fetch About tab data (branches, working hours, FAQs)
-    const needsAboutData = available_tabs.has_branches || available_tabs.has_working_hours || available_tabs.has_faqs;
-
-    // Fetch additional data in parallel based on available tabs
+    // Fetch additional data in parallel based on enabled tabs
     const [aboutData, mediaData] = await Promise.all([
-      needsAboutData
+      hasAboutTab
         ? businessRepository.getAboutData(slug, locale).catch(() => ({
             branches: [],
             workingHours: [],
             faqs: [],
           }))
         : Promise.resolve({ branches: [], workingHours: [], faqs: [] }),
-      available_tabs.has_media
+      hasMediaTab
         ? businessRepository.getMedia(slug).catch(() => ({ media: [], total: 0 }))
         : Promise.resolve({ media: [], total: 0 }),
     ]);
@@ -110,7 +102,6 @@ export default async function BusinessProfilePage({ params }: BusinessProfilePag
             <BusinessProfileClient
               business={business}
               locale={locale}
-              availableTabs={available_tabs}
               branches={branches}
               workingHours={sortedWorkingHours}
               faqs={activeFaqs}

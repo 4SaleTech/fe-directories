@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Business, Branch, WorkingHours, FAQ, BusinessMedia, AvailableTabs } from '@/domain/entities/Business';
+import { Business, Branch, WorkingHours, FAQ, BusinessMedia, BusinessTab } from '@/domain/entities/Business';
 import {
   BusinessTabs,
   AboutTabContent,
@@ -13,7 +13,6 @@ import {
 interface BusinessProfileClientProps {
   business: Business;
   locale: string;
-  availableTabs: AvailableTabs;
   branches?: Branch[];
   workingHours?: WorkingHours[];
   faqs?: FAQ[];
@@ -23,13 +22,15 @@ interface BusinessProfileClientProps {
 export default function BusinessProfileClient({
   business,
   locale,
-  availableTabs,
   branches,
   workingHours,
   faqs,
   media,
 }: BusinessProfileClientProps) {
-  const [activeTab, setActiveTab] = useState<string>('about');
+  // Use tabs from business data, default to 'about' tab
+  const tabs: BusinessTab[] = business.tabs || [];
+  const defaultTab = tabs.find(tab => tab.enabled)?.slug || 'about';
+  const [activeTab, setActiveTab] = useState<string>(defaultTab);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -58,7 +59,7 @@ export default function BusinessProfileClient({
     <>
       {/* Tabs Navigation */}
       <BusinessTabs
-        availableTabs={availableTabs}
+        tabs={tabs}
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />

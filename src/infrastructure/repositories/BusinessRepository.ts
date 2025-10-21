@@ -1,5 +1,5 @@
 import { apiClient } from '../api/client';
-import { Business, Review, WorkingHours, Branch, FAQ, BusinessMedia } from '@/domain/entities/Business';
+import { Business, Review, WorkingHours, Branch, FAQ, BusinessMedia, BusinessTab } from '@/domain/entities/Business';
 import { ForSaleService } from '@/domain/entities/ForSale';
 
 // Backend response type (single language based on X-Language header)
@@ -39,6 +39,7 @@ interface BusinessDTO {
     has_media: boolean;
     has_reviews: boolean;
   };
+  tabs?: BusinessTab[]; // New: Localized tabs from backend
   created_at: string;
   updated_at: string;
 }
@@ -73,6 +74,7 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     social_media: dto.social_media,
     tags: dto.tags,
     available_tabs: dto.available_tabs,
+    tabs: dto.tabs, // New: Map tabs array from backend
   };
 }
 
