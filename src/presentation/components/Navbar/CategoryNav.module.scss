@@ -1,0 +1,74 @@
+@import '@/presentation/styles/variables';
+
+.categoryNav {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categoryItem {
+  flex-shrink: 0;
+}
+
+.categoryLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: $spacing-2 $spacing-3;
+  text-decoration: none;
+  color: $color-text-primary;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: $color-background;
+    color: $color-primary;
+  }
+
+  &.active {
+    background: $color-primary-light;
+    color: $color-primary;
+    font-weight: 600;
+  }
+
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+.categoryIcon {
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoryName {
+  line-height: 1.4;
+}
+
+// RTL Support
+[dir='rtl'] {
+  .categoryNav {
+    flex-direction: row-reverse;
+  }
+
+  .categoryLink {
+    flex-direction: row-reverse;
+  }
+}
+
+// Responsive - hide on mobile/tablet
+@media (max-width: $breakpoint-lg) {
+  .categoryNav {
+    display: none;
+  }
+}

@@ -1,0 +1,147 @@
+@import '@/presentation/styles/variables';
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: $color-surface;
+  border-bottom: 1px solid $color-border;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 $spacing-4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+
+  @media (max-width: $breakpoint-md) {
+    padding: 0 $spacing-3;
+    height: 56px;
+  }
+}
+
+// Logo Section
+.logoSection {
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: $color-primary;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.logoText {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: $color-primary;
+
+  @media (max-width: $breakpoint-md) {
+    font-size: 20px;
+  }
+}
+
+.logoSubtext {
+  font-size: 12px;
+  font-weight: 500;
+  color: $color-text-secondary;
+  line-height: 1;
+  margin-top: 2px;
+
+  @media (max-width: $breakpoint-md) {
+    font-size: 10px;
+  }
+}
+
+// Desktop Navigation
+.desktopNav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 0 $spacing-6;
+  max-width: 800px;
+
+  @media (max-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+// Actions Section
+.actionsSection {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.languageSwitcher {
+  @media (max-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+// Mobile Menu Toggle
+.mobileMenuToggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: $spacing-2;
+  cursor: pointer;
+  color: $color-text-primary;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $color-primary;
+  }
+
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    display: block;
+  }
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 24px;
+}
+
+.hamburgerLine {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+// RTL Support
+[dir='rtl'] {
+  .container {
+    flex-direction: row-reverse;
+  }
+
+  .desktopNav {
+    padding: 0 $spacing-6;
+  }
+
+  .actionsSection {
+    flex-direction: row-reverse;
+  }
+}
