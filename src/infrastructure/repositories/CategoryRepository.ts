@@ -83,7 +83,7 @@ export class CategoryRepository {
       tags?: string[];
     },
     locale: string = 'ar'
-  ): Promise<{ businesses: Business[]; total: number; page: number; limit: number; has_more: boolean }> {
+  ): Promise<{ businesses: Business[]; total: number; page: number; limit: number; total_pages: number; has_more: boolean }> {
     const queryParams = new URLSearchParams({
       page: String(params.page || 1),
       limit: String(params.limit || 20),
@@ -101,7 +101,7 @@ export class CategoryRepository {
     if (params.sort) queryParams.append('sort', params.sort);
     if (params.tags && params.tags.length > 0) queryParams.append('tags', params.tags.join(','));
 
-    const response = await apiClient.get<{ data: { businesses: BusinessDTO[]; total: number; page: number; limit: number; has_more: boolean } }>(
+    const response = await apiClient.get<{ data: { businesses: BusinessDTO[]; total: number; page: number; limit: number; total_pages: number; has_more: boolean } }>(
       `/categories/${slug}/businesses?${queryParams}`,
       { headers: { 'X-Language': locale } }
     );
@@ -111,6 +111,7 @@ export class CategoryRepository {
       total: response.data.total,
       page: response.data.page,
       limit: response.data.limit,
+      total_pages: response.data.total_pages,
       has_more: response.data.has_more,
     };
   }

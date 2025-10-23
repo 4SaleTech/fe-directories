@@ -127,7 +127,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     };
 
     // Fetch businesses for this category
-    const { businesses, total, page, limit, has_more } = await categoryRepository.getBusinessesByCategory(
+    const { businesses, total, page, limit, total_pages, has_more } = await categoryRepository.getBusinessesByCategory(
       category,
       requestParams,
       locale
