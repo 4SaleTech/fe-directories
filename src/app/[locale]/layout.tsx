@@ -2,6 +2,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
+import { Category } from '@/domain/entities/Category';
 import { categoryRepository } from '@/infrastructure/repositories/CategoryRepository';
 import Navbar from '@/presentation/components/Navbar';
 import '@/presentation/styles/globals.scss';
@@ -29,7 +30,7 @@ export default async function LocaleLayout({
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   // Fetch categories for navigation
-  let categories = [];
+  let categories: Category[] = [];
   try {
     categories = await categoryRepository.getAllCategories(locale);
   } catch (error) {
