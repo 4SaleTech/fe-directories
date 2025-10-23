@@ -204,9 +204,10 @@ export class BusinessRepository {
     return response.data || [];
   }
 
-  async getMedia(slug: string): Promise<{ media: BusinessMedia[]; total: number }> {
+  async getMedia(slug: string, category?: 'gallery' | 'menu'): Promise<{ media: BusinessMedia[]; total: number }> {
+    const queryParams = category ? `?category=${category}` : '';
     const response = await apiClient.get<{ data: { media: BusinessMedia[]; total: number } }>(
-      `/directories/businesses/${slug}/media`
+      `/directories/businesses/${slug}/media${queryParams}`
     );
     return response.data || { media: [], total: 0 };
   }
