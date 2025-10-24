@@ -36,8 +36,8 @@ const BusinessSidebar = ({ business, locale }: BusinessSidebarProps) => {
   };
 
   const handleCallNow = () => {
-    if (business.contact_numbers) {
-      const phoneNumber = business.contact_numbers.split(',')[0].trim();
+    if (business.contact_info?.contact_numbers && business.contact_info.contact_numbers.length > 0) {
+      const phoneNumber = business.contact_info.contact_numbers[0];
       window.location.href = `tel:${phoneNumber}`;
     }
   };
@@ -168,9 +168,9 @@ const BusinessSidebar = ({ business, locale }: BusinessSidebarProps) => {
         )}
 
         {/* Website Link */}
-        {business.website && (
+        {business.contact_info?.website && (
           <a
-            href={business.website}
+            href={business.contact_info.website}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.websiteLink}
@@ -188,7 +188,7 @@ const BusinessSidebar = ({ business, locale }: BusinessSidebarProps) => {
         )}
 
         {/* Call Now Button */}
-        {business.contact_numbers && (
+        {business.contact_info?.contact_numbers && business.contact_info.contact_numbers.length > 0 && (
           <button className={styles.callButton} onClick={handleCallNow}>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path
@@ -201,9 +201,9 @@ const BusinessSidebar = ({ business, locale }: BusinessSidebarProps) => {
         )}
 
         {/* WhatsApp Button */}
-        {business.whatsapp_number && (
+        {business.contact_info?.whatsapp && business.contact_info.whatsapp.length > 0 && (
           <a
-            href={`https://wa.me/${business.whatsapp_number.replace(/\D/g, '')}`}
+            href={`https://wa.me/${business.contact_info.whatsapp[0].replace(/\D/g, '')}`}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.whatsappButton}

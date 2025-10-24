@@ -40,10 +40,12 @@ export interface Business {
   views_count: number;
   attributes?: Record<string, string>; // Dynamic attributes (e.g., verified: "true", featured: "false", premium: "true")
   is_open: boolean;
-  whatsapp_number?: string;
-  contact_numbers?: string;
-  email?: string;
-  website?: string;
+  contact_info?: {
+    contact_numbers: string[];
+    whatsapp: string[];
+    email: string;
+    website: string;
+  };
   social_media?: {
     facebook?: string;
     instagram?: string;

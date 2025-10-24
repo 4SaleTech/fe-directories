@@ -48,10 +48,12 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     views_count: dto.view_count,
     attributes: dto.attributes,
     is_open: true,
-    whatsapp_number: dto.phone,
-    contact_numbers: dto.phone,
-    email: dto.email,
-    website: dto.website,
+    contact_info: {
+      contact_numbers: dto.phone ? [dto.phone] : [],
+      whatsapp: dto.phone ? [dto.phone] : [],
+      email: dto.email || '',
+      website: dto.website || ''
+    },
     address: dto.address,
   };
 }

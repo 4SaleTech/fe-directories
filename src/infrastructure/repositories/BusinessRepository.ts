@@ -48,7 +48,6 @@ interface BusinessDTO {
 function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
   // Extract contact info
   const contactInfo = dto.contact_info || {};
-  const phone = contactInfo.phone || contactInfo.whatsapp;
 
   return {
     id: dto.id,
@@ -65,10 +64,12 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     views_count: dto.view_count,
     attributes: dto.attributes,
     is_open: true, // Would need to calculate from working hours
-    whatsapp_number: phone,
-    contact_numbers: phone,
-    email: contactInfo.email,
-    website: contactInfo.website,
+    contact_info: {
+      contact_numbers: contactInfo.contact_numbers || [],
+      whatsapp: contactInfo.whatsapp || [],
+      email: contactInfo.email || '',
+      website: contactInfo.website || ''
+    },
     address: contactInfo.address,
     location: dto.location,
     social_media: dto.social_media,
