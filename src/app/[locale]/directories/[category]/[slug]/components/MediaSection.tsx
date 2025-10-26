@@ -8,9 +8,11 @@ import styles from './MediaSection.module.scss';
 interface MediaSectionProps {
   media: BusinessMedia[];
   locale?: string;
+  title?: string;
+  isMenuLayout?: boolean;
 }
 
-const MediaSection = ({ media, locale }: MediaSectionProps) => {
+const MediaSection = ({ media, locale, title, isMenuLayout = false }: MediaSectionProps) => {
   const t = useTranslations('business');
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -44,12 +46,12 @@ const MediaSection = ({ media, locale }: MediaSectionProps) => {
 
   return (
     <section id="media" className={styles.section}>
-      <h2 className={styles.sectionTitle}>{t('media')}</h2>
-      <div className={styles.mediaGrid}>
+      <h2 className={styles.sectionTitle}>{title || t('media')}</h2>
+      <div className={isMenuLayout ? styles.menuGrid : styles.mediaGrid}>
         {media.map((item, index) => (
           <div
             key={item.id}
-            className={styles.mediaItem}
+            className={isMenuLayout ? styles.menuItem : styles.mediaItem}
             onClick={() => handleMediaClick(index)}
           >
             <div className={styles.mediaContainer}>

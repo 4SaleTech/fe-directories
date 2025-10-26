@@ -72,7 +72,7 @@ export default function BusinessProfileClient({
         return <ServicesTabContent businessSlug={business.slug} locale={locale} />;
       case 'media':
       case 'menu':
-        return <MediaTabContent media={isLoadingMedia ? [] : mediaData} locale={locale} />;
+        return <MediaTabContent media={isLoadingMedia ? [] : mediaData} locale={locale} isMenuTab={activeTab === 'menu'} />;
       case 'reviews':
         return <ReviewsTabContent businessSlug={business.slug} locale={locale} />;
       default:

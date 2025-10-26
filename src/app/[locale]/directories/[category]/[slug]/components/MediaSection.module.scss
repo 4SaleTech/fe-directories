@@ -52,6 +52,30 @@
   }
 }
 
+// Menu-specific grid layout
+.menuGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-2;
+
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Menu-specific item with taller aspect ratio (3:4)
+.menuItem {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: $radius-lg;
+  aspect-ratio: 3 / 4;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
 .mediaContainer {
   position: relative;
   width: 100%;
