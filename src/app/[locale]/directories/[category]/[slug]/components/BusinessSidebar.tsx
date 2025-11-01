@@ -15,8 +15,9 @@ const BusinessSidebar = ({ business, locale }: BusinessSidebarProps) => {
   const t = useTranslations('business');
   const [isFollowing, setIsFollowing] = useState(false);
 
-  const businessName = locale === 'ar' ? business.name_ar : business.name;
-  const businessDescription = locale === 'ar' ? business.about_ar : business.about;
+  // Use computed display fields from backend (includes fallback logic)
+  const businessName = business.display_title;
+  const businessDescription = business.display_description || (locale === 'ar' ? business.about_ar : business.about);
 
   const handleShare = () => {
     if (navigator.share) {

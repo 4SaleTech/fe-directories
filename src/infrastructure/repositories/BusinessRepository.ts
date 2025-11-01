@@ -31,6 +31,10 @@ interface BusinessDTO {
   };
   status: string;
   tags?: any[];
+  page_title?: string;
+  page_description?: string;
+  display_title: string;
+  display_description: string;
   available_tabs?: {
     has_branches: boolean;
     has_working_hours: boolean;
@@ -74,6 +78,10 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     location: dto.location,
     social_media: dto.social_media,
     tags: dto.tags,
+    page_title: dto.page_title,
+    page_description: dto.page_description,
+    display_title: dto.display_title,
+    display_description: dto.display_description,
     available_tabs: dto.available_tabs,
     tabs: dto.tabs, // New: Map tabs array from backend
   };

@@ -1,5 +1,41 @@
 import { Tag } from './Tag';
 
+export interface BusinessSEO {
+  meta_title?: string;
+  meta_description?: string;
+  og_title?: string;
+  og_description?: string;
+  og_image?: string;
+  canonical_url?: string;
+  structured_data?: {
+    '@context': string;
+    '@type': string;
+    name?: string;
+    description?: string;
+    image?: string;
+    address?: {
+      '@type': string;
+      streetAddress?: string;
+      addressLocality?: string;
+      addressCountry?: string;
+    };
+    geo?: {
+      '@type': string;
+      latitude?: number;
+      longitude?: number;
+    };
+    telephone?: string;
+    url?: string;
+    aggregateRating?: {
+      '@type': string;
+      ratingValue?: number;
+      reviewCount?: number;
+      bestRating?: number;
+      worstRating?: number;
+    };
+  };
+}
+
 export interface AvailableTabs {
   has_branches: boolean;
   has_working_hours: boolean;
@@ -61,6 +97,11 @@ export interface Business {
   };
   available_tabs?: AvailableTabs; // Deprecated: Use tabs array instead
   tabs?: BusinessTab[]; // New: Localized tabs from backend
+  page_title?: string;
+  page_description?: string;
+  display_title: string;
+  display_description: string;
+  seo?: BusinessSEO; // SEO metadata from backend
 }
 
 export interface WorkingHours {

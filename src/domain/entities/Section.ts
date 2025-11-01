@@ -7,6 +7,10 @@ export interface Section {
   background_color?: string;
   display_order: number;
   business_limit: number;
+  page_title?: string;
+  page_description?: string;
+  display_title: string;
+  display_description: string;
   cta: {
     title?: string;
     category_slug?: string;

@@ -3,10 +3,11 @@
 .categoryNav {
   display: flex;
   align-items: center;
-  gap: $spacing-2;
+  gap: $spacing-1;
   list-style: none;
   margin: 0;
   padding: 0;
+  overflow: visible; // Allow items to be fully visible
 }
 
 .categoryItem {
@@ -16,11 +17,11 @@
 .categoryLink {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: $spacing-2 $spacing-3;
+  gap: 4px;
+  padding: $spacing-2;
   text-decoration: none;
   color: $color-text-primary;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   border-radius: 8px;
   transition: all 0.2s ease;

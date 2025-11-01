@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import { Category } from '@/domain/entities/Category';
@@ -81,7 +82,14 @@ const MobileMenu = ({ categories, locale, isOpen, onClose }: MobileMenuProps) =>
                     onClick={onClose}
                   >
                     {category.icon && (
-                      <span className={styles.categoryIcon}>{category.icon}</span>
+                      <span className={styles.categoryIcon}>
+                        <Image
+                          src={category.icon}
+                          alt={category.name}
+                          width={20}
+                          height={20}
+                        />
+                      </span>
                     )}
                     <span className={styles.categoryName}>{category.name}</span>
                     <span className={styles.arrow}>

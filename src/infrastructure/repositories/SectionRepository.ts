@@ -27,6 +27,10 @@ interface SectionDTO {
   background_color?: string;
   display_order: number;
   business_limit: number;
+  page_title?: string;
+  page_description?: string;
+  display_title: string;
+  display_description: string;
   cta: {
     title?: string;
     category_slug?: string;
@@ -56,6 +60,8 @@ function mapBusinessDTO(dto: BusinessDTO): Business {
     views_count: dto.view_count,
     attributes: dto.attributes,
     is_open: true,
+    display_title: dto.name, // Default fallback
+    display_description: dto.about || '', // Default fallback
   };
 }
 
@@ -68,6 +74,10 @@ function mapSectionDTO(dto: SectionDTO): Section {
     background_color: dto.background_color,
     display_order: dto.display_order,
     business_limit: dto.business_limit,
+    page_title: dto.page_title,
+    page_description: dto.page_description,
+    display_title: dto.display_title,
+    display_description: dto.display_description,
     cta: {
       title: dto.cta.title,
       category_slug: dto.cta.category_slug,

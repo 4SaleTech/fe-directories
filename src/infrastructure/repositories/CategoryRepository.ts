@@ -55,6 +55,8 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
       website: dto.website || ''
     },
     address: dto.address,
+    display_title: dto.name, // Default fallback (backend should provide this)
+    display_description: dto.about || '', // Default fallback
   };
 }
 

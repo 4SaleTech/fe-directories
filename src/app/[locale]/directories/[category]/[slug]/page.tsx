@@ -25,11 +25,19 @@ export async function generateMetadata({ params }: BusinessProfilePageProps): Pr
     const description = locale === 'ar' ? business.about_ar : business.about;
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const canonical = `${baseUrl}/${locale}/directories/${category}/${slug}`;
+    const defaultCanonical = `${baseUrl}/${locale}/directories/${category}/${slug}`;
+
+    // Prioritize SEO fields from backend
+    const metaTitle = business.seo?.meta_title || `${businessName} | 4Sale`;
+    const metaDescription = business.seo?.meta_description || description || `View ${businessName} business profile on 4Sale`;
+    const ogTitle = business.seo?.og_title || metaTitle;
+    const ogDescription = business.seo?.og_description || metaDescription;
+    const ogImage = business.seo?.og_image || business.cover_image;
+    const canonical = business.seo?.canonical_url || defaultCanonical;
 
     return {
-      title: `${businessName} | 4Sale`,
-      description: description || `View ${businessName} business profile on 4Sale`,
+      title: metaTitle,
+      description: metaDescription,
       alternates: {
         canonical,
         languages: {
@@ -38,13 +46,19 @@ export async function generateMetadata({ params }: BusinessProfilePageProps): Pr
         },
       },
       openGraph: {
-        title: `${businessName} | 4Sale`,
-        description: description || `View ${businessName} business profile on 4Sale`,
+        title: ogTitle,
+        description: ogDescription,
         url: canonical,
         siteName: '4Sale',
         locale: locale === 'ar' ? 'ar_AR' : 'en_US',
         type: 'website',
-        images: business.cover_image ? [{ url: business.cover_image }] : [],
+        images: ogImage ? [{ url: ogImage }] : [],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: ogTitle,
+        description: ogDescription,
+        images: ogImage ? [ogImage] : [],
       },
     };
   } catch (error) {
@@ -95,26 +109,38 @@ export default async function BusinessProfilePage({ params }: BusinessProfilePag
     const sortedWorkingHours = [...workingHoursData].sort((a, b) => a.day - b.day);
 
     return (
-      <div className={styles.page}>
-        <div className={styles.container}>
-          {/* Main Content */}
-          <main className={styles.mainContent}>
-            <BusinessProfileClient
-              business={business}
-              locale={locale}
-              branches={branches}
-              workingHours={sortedWorkingHours}
-              faqs={activeFaqs}
-              media={mediaData.media}
-            />
-          </main>
+      <>
+        {/* Structured Data (Schema.org JSON-LD) */}
+        {business.seo?.structured_data && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(business.seo.structured_data),
+            }}
+          />
+        )}
 
-          {/* Sidebar */}
-          <aside className={styles.sidebar}>
-            <BusinessSidebar business={business} locale={locale} />
-          </aside>
+        <div className={styles.page}>
+          <div className={styles.container}>
+            {/* Main Content */}
+            <main className={styles.mainContent}>
+              <BusinessProfileClient
+                business={business}
+                locale={locale}
+                branches={branches}
+                workingHours={sortedWorkingHours}
+                faqs={activeFaqs}
+                media={mediaData.media}
+              />
+            </main>
+
+            {/* Sidebar */}
+            <aside className={styles.sidebar}>
+              <BusinessSidebar business={business} locale={locale} />
+            </aside>
+          </div>
         </div>
-      </div>
+      </>
     );
   } catch (error) {
     console.error('Error loading business profile:', error);

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Category } from '@/domain/entities/Category';
 import styles from './CategoryNav.module.scss';
@@ -13,9 +14,12 @@ interface CategoryNavProps {
 const CategoryNav = ({ categories, locale }: CategoryNavProps) => {
   const pathname = usePathname();
 
-  // Limit categories shown in navbar (show first 7, rest in "More" if needed)
-  const visibleCategories = categories.slice(0, 7);
-  const hasMore = categories.length > 7;
+  // Limit categories shown in navbar (show first 5, rest in "More" if needed)
+  const visibleCategories = categories.slice(0, 5);
+  const hasMore = categories.length > 5;
+
+  // Check if we're on the main directories page
+  const isOnDirectoriesPage = pathname === `/${locale}/directories`;
 
   return (
     <ul className={styles.categoryNav}>
@@ -30,7 +34,14 @@ const CategoryNav = ({ categories, locale }: CategoryNavProps) => {
               className={`${styles.categoryLink} ${isActive ? styles.active : ''}`}
             >
               {category.icon && (
-                <span className={styles.categoryIcon}>{category.icon}</span>
+                <span className={styles.categoryIcon}>
+                  <Image
+                    src={category.icon}
+                    alt={category.name}
+                    width={20}
+                    height={20}
+                  />
+                </span>
               )}
               <span className={styles.categoryName}>{category.name}</span>
             </Link>
@@ -39,7 +50,7 @@ const CategoryNav = ({ categories, locale }: CategoryNavProps) => {
       })}
 
       {/* "View All" or "More" link if there are too many categories */}
-      {hasMore && (
+      {hasMore && !isOnDirectoriesPage && (
         <li className={styles.categoryItem}>
           <Link
             href={`/${locale}/directories`}

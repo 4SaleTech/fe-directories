@@ -46,30 +46,79 @@ export async function generateMetadata({ params, searchParams }: CategoryPagePro
     };
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const canonical = buildCanonicalUrl(baseUrl, locale, category, filters);
-    const title = buildPageTitle(categoryData.name, filters, {
-      verified: t('verified'),
-      starsRating: t('starsRating'),
-      siteName: t('siteName'),
-      discover: t('discover'),
-      best: t('best'),
-      verifiedText: t('verifiedText'),
-      withRating: t('withRating'),
-      results: t('results'),
-      on4Sale: t('on4Sale'),
-    }, tagName);
+    const defaultCanonical = buildCanonicalUrl(baseUrl, locale, category, filters);
 
-    const description = buildPageDescription(categoryData.name, filters, {
-      verified: t('verified'),
-      starsRating: t('starsRating'),
-      siteName: t('siteName'),
-      discover: t('discover'),
-      best: t('best'),
-      verifiedText: t('verifiedText'),
-      withRating: t('withRating'),
-      results: t('results'),
-      on4Sale: t('on4Sale'),
-    }, tagName);
+    // Check if this is a base category page (no filters applied)
+    const hasFilters = Object.values(filters).some(v => v !== undefined);
+
+    // For base category pages, prioritize backend SEO fields
+    let title: string;
+    let description: string;
+    let ogTitle: string;
+    let ogDescription: string;
+    let canonical: string;
+    let ogImage: string | undefined;
+
+    if (!hasFilters && categoryData.seo) {
+      // Use backend SEO fields for base category page
+      title = categoryData.seo.meta_title || buildPageTitle(categoryData.name, filters, {
+        verified: t('verified'),
+        starsRating: t('starsRating'),
+        siteName: t('siteName'),
+        discover: t('discover'),
+        best: t('best'),
+        verifiedText: t('verifiedText'),
+        withRating: t('withRating'),
+        results: t('results'),
+        on4Sale: t('on4Sale'),
+      }, tagName);
+
+      description = categoryData.seo.meta_description || buildPageDescription(categoryData.name, filters, {
+        verified: t('verified'),
+        starsRating: t('starsRating'),
+        siteName: t('siteName'),
+        discover: t('discover'),
+        best: t('best'),
+        verifiedText: t('verifiedText'),
+        withRating: t('withRating'),
+        results: t('results'),
+        on4Sale: t('on4Sale'),
+      }, tagName);
+
+      ogTitle = categoryData.seo.og_title || title;
+      ogDescription = categoryData.seo.og_description || description;
+      ogImage = categoryData.seo.og_image;
+      canonical = categoryData.seo.canonical_url || defaultCanonical;
+    } else {
+      // Use dynamic SEO for filtered pages
+      title = buildPageTitle(categoryData.name, filters, {
+        verified: t('verified'),
+        starsRating: t('starsRating'),
+        siteName: t('siteName'),
+        discover: t('discover'),
+        best: t('best'),
+        verifiedText: t('verifiedText'),
+        withRating: t('withRating'),
+        results: t('results'),
+        on4Sale: t('on4Sale'),
+      }, tagName);
+
+      description = buildPageDescription(categoryData.name, filters, {
+        verified: t('verified'),
+        starsRating: t('starsRating'),
+        siteName: t('siteName'),
+        discover: t('discover'),
+        best: t('best'),
+        verifiedText: t('verifiedText'),
+        withRating: t('withRating'),
+        results: t('results'),
+        on4Sale: t('on4Sale'),
+      }, tagName);
+
+      ogTitle = title;
+      ogDescription = description;
+      canonical = defaultCanonical;
+    }
 
     const shouldIndex = shouldIndexPage(filters);
 
@@ -85,12 +134,19 @@ export async function generateMetadata({ params, searchParams }: CategoryPagePro
       },
       robots: shouldIndex ? 'index, follow' : 'noindex, follow',
       openGraph: {
-        title,
-        description,
+        title: ogTitle,
+        description: ogDescription,
         url: canonical,
         siteName: t('siteName'),
         locale: locale === 'ar' ? 'ar_AR' : 'en_US',
         type: 'website',
+        images: ogImage ? [{ url: ogImage }] : [],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: ogTitle,
+        description: ogDescription,
+        images: ogImage ? [ogImage] : [],
       },
     };
   } catch (error) {
@@ -142,7 +198,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     return (
       <BusinessListView
         category={{
-          title: categoryData.name,
+          title: categoryData.display_title,
           slug: categoryData.slug,
         }}
         businesses={businesses}
