@@ -8,22 +8,36 @@ interface BusinessDTO {
   name: string;
   slug: string;
   about?: string;
-  category_id: number;
+  category_id?: number;
   category_slug?: string;
-  owner_id?: number;
-  phone?: string;
-  email?: string;
-  website?: string;
-  address?: string;
-  latitude?: number;
-  longitude?: number;
+  user_id?: number;
   logo?: string;
   cover_image?: string;
-  attributes?: Record<string, string>;
+  contact_info?: {
+    contact_numbers?: string[];
+    whatsapp?: string[];
+    email?: string;
+    website?: string;
+  };
+  location?: {
+    latitude?: number;
+    longitude?: number;
+  };
+  attributes?: Record<string, any>;
   view_count: number;
-  rating_avg: number;
-  rating_count: number;
-  tags?: string[];
+  rating: {
+    average: number;
+    count: number;
+  };
+  status?: string;
+  tags?: Array<{
+    id: number;
+    name: string;
+    slug: string;
+    type: string;
+  }>;
+  display_title?: string;
+  display_description?: string;
   created_at: string;
   updated_at: string;
 }
@@ -37,26 +51,27 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     name_ar: dto.name,
     about: dto.about,
     about_ar: dto.about,
-    category_id: dto.category_id,
+    category_id: dto.category_id || 0,
     category_slug: dto.category_slug,
     logo: dto.logo,
     cover_image: dto.cover_image,
     rating: {
-      average: dto.rating_avg,
-      count: dto.rating_count,
+      average: dto.rating.average,
+      count: dto.rating.count,
     },
     views_count: dto.view_count,
     attributes: dto.attributes,
     is_open: true,
-    contact_info: {
-      contact_numbers: dto.phone ? [dto.phone] : [],
-      whatsapp: dto.phone ? [dto.phone] : [],
-      email: dto.email || '',
-      website: dto.website || ''
+    contact_info: dto.contact_info || {
+      contact_numbers: [],
+      whatsapp: [],
+      email: '',
+      website: ''
     },
-    address: dto.address,
-    display_title: dto.name, // Default fallback (backend should provide this)
-    display_description: dto.about || '', // Default fallback
+    location: dto.location,
+    tags: dto.tags,
+    display_title: dto.display_title || dto.name,
+    display_description: dto.display_description || dto.about || '',
   };
 }
 
