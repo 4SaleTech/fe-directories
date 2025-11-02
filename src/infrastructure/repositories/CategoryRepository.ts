@@ -62,11 +62,11 @@ function mapBusinessDTO(dto: BusinessDTO, locale: string): Business {
     views_count: dto.view_count,
     attributes: dto.attributes,
     is_open: true,
-    contact_info: dto.contact_info || {
-      contact_numbers: [],
-      whatsapp: [],
-      email: '',
-      website: ''
+    contact_info: {
+      contact_numbers: dto.contact_info?.contact_numbers || [],
+      whatsapp: dto.contact_info?.whatsapp || [],
+      email: dto.contact_info?.email || '',
+      website: dto.contact_info?.website || ''
     },
     location: dto.location,
     tags: dto.tags,
