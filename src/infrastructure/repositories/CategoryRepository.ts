@@ -35,6 +35,11 @@ interface BusinessDTO {
     name: string;
     slug: string;
     type: string;
+    display_order: number;
+    usage_count: number;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
   }>;
   display_title?: string;
   display_description?: string;
