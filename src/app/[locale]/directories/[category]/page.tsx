@@ -7,6 +7,9 @@ import { filterRepository } from '@/infrastructure/repositories/FilterRepository
 import BusinessListView from '@/presentation/components/BusinessListView/BusinessListView';
 import { buildCanonicalUrl, buildPageTitle, buildPageDescription, shouldIndexPage } from '@/lib/seo';
 
+// Force dynamic rendering to ensure fresh data on every request
+export const dynamic = 'force-dynamic';
+
 interface CategoryPageProps {
   params: {
     locale: string;
